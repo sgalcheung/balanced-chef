@@ -1,312 +1,234 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 import { Icon } from "astro-icon";
-import img0 from '../assets/img0.jpg'
-import img1 from '../assets/img1.jpg'
-import img2 from '../assets/img2.jpg'
-import img3 from '../assets/img3.jpg'
+import img0 from "../assets/img0.jpg";
+import img1 from "../assets/img1.jpg";
+import img2 from "../assets/img2.jpg";
+import img3 from "../assets/img3.jpg";
 ---
 
 <div>
-    <section class="bg-gradient-to-b from-red-100 to-red-200 text-white">
-        <div class="container px-6 py-12 mx-auto">
-            <div class="grid items-center gap-4 xl:grid-cols-5">
-                <div
-                    class="max-w-2xl mx-auto my-8 space-y-4 text-center xl:col-span-2 xl:text-left"
-                >
-                    <h2 class="text-4xl font-bold text-black">
-                        The Balanced Chef
-                    </h2>
-                    <p class="text-black">
-                        "Bringing you a world of flavors and wholesome recipes
-                        to inspire your culinary journey."
-                    </p>
-                </div>
-                <div class="p-6 xl:col-span-3">
-                    <div class="grid gap-4 md:grid-cols-2">
-                        <div class="grid content-center gap-4">
-                            <div
-                                class="p-6 rounded shadow-md bg-black bg-opacity-100"
-                            >
-                                <p>
-                                    "I never knew healthy food could taste this
-                                    good! The Balanced Chef's recipes have
-                                    transformed my meals into a delicious and
-                                    guilt-free experience."
-                                </p>
-                                <div class="flex items-center mt-4 space-x-4">
-                                  <Image
-                                        src={img0}
-                                       
-                                        alt=""
-                                        class="bg-center bg-cover rounded-full "
-                                        width={45}
-                                        height={45}
-                                        />
-                                    <div>
-                                        <p class="text-lg font-semibold">
-                                            Leroy Jenkins
-                                        </p>
-                                        <p class="text-sm text-gray-400">
-                                            Food Enthusiast
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-6 rounded shadow-md bg-black">
-                                <p>
-                                    "The Balanced Chef's recipes have become a
-                                    staple in my kitchen. They are not only
-                                    nutritious but also bursting with flavor. I
-                                    highly recommend trying their dishes!"
-                                </p>
-                                <div class="flex items-center mt-4 space-x-4">
-                                  <Image
-                                        src={img1}
-                                       
-                                        alt=""
-                                        class="bg-center bg-cover rounded-full "
-                                        width={45}
-                                        height={45}
-                                        />
-                                    <div>
-                                        <p class="text-lg font-semibold">
-                                            Steward Masweneng
-                                        </p>
-                                        <p class="text-sm text-gray-400">
-                                            Health Coach
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid content-center gap-4">
-                            <div class="p-6 rounded shadow-md bg-black">
-                                <p>
-                                    "As a busy professional, I struggled to find
-                                    time to cook nutritious meals. Thanks to The
-                                    Balanced Chef's easy-to-follow recipes, I
-                                    can now prepare healthy dishes in no time.
-                                    It has been a game-changer for me!"
-                                </p>
-                                <div class="flex items-center mt-4 space-x-4">
-                                  <Image
-                                        src={img2}
-                                       
-                                        alt=""
-                                        class="bg-center bg-cover rounded-full "
-                                        width={45}
-                                        height={45}
-                                        />
-                                    <div>
-                                        <p class="text-lg font-semibold">
-                                            Sophia Lee
-                                        </p>
-                                        <p class="text-sm text-gray-400">
-                                            Marketing Executive
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-6 rounded shadow-md bg-black">
-                                <p>
-                                    "I've always struggled with finding healthy
-                                    options that actually taste good. The
-                                    Balanced Chef has exceeded my expectations
-                                    with their flavorful and nourishing recipes.
-                                    It's a game-changer for anyone looking to
-                                    eat well without sacrificing taste!"
-                                </p>
-                                <div class="flex items-center mt-4 space-x-4">
-                                    <Image
-                                        src={img3}
-                                       
-                                        alt=""
-                                        class="bg-center bg-cover rounded-full "
-                                        width={45}
-                                        height={45}
-                                        />
-                                    <div>
-                                        <p class="text-lg font-semibold">
-                                            Oliver Smith
-                                        </p>
-                                        <p class="text-sm text-gray-400">
-                                            Fitness Enthusiast
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="py-4 bg-white">
+  <section class="bg-gradient-to-b from-red-100 to-red-200 text-white">
+    <div class="container px-6 py-12 mx-auto">
+      <div class="grid items-center gap-4 xl:grid-cols-5">
         <div
-            class="max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between"
+          class="max-w-2xl mx-auto my-8 space-y-4 text-center xl:col-span-2 xl:text-left"
         >
-            <div class="text-center">
-                <p class="mt-4 text-sm leading-7 text-gray-500 font-regular">
-                    F.A.Q
-                </p>
-                <h3
-                    class="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900"
-                >
-                    Frequently Asked <span class="text-red-600">Questions</span>
-                </h3>
-            </div>
-
-            <div class="mt-20">
-                <ul class="">
-                    <li class="text-left mb-10">
-                        <div class="flex flex-row items-start mb-5">
-                            <div
-                                class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
-                            >
-                          <Icon name="question"
-                          class="h-6 w-6 text-white"
-
-                           />
-
-                           
-
-                            </div>
-                            <div
-                                class="bg-gray-100 p-5 px-10 w-full flex items-center"
-                            >
-                                <h4
-                                    class="text-md leading-6 font-medium text-gray-900"
-                                >
-                                    What are your opening hours?
-                                </h4>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-row items-start">
-                            <div
-                                class="bg-red-100 p-5 px-10 w-full flex items-center"
-                            >
-                                <p class="text-gray-700 text-sm">
-                                    The Balanced Chef is open from Monday to
-                                    Friday, 9:00 AM to 10:00 PM. On Saturdays
-                                    and Sundays, we are open from 10:00 AM to
-                                    11:00 PM. Please note that these hours are
-                                    subject to change, so it's always a good
-                                    idea to check our website or call us for the
-                                    most up-to-date information.
-                                </p>
-                            </div>
-                            <div
-                                class="hidden sm:flex items-center justify-center p-3 ml-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
-                            >
-                               <Icon name="person"
-                          class="h-6 w-6 text-white"
-
-                           />
-                            </div>
-                        </div>
-                    </li>
-                    <li class="text-left mb-10">
-                        <div class="flex flex-row items-start mb-5">
-                            <div
-                                class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
-                            >
-                             <Icon name="question"
-                          class="h-6 w-6 text-white"
-
-                           />
-                            </div>
-                            <div
-                                class="bg-gray-100 p-5 px-10 w-full flex items-center"
-                            >
-                                <h4
-                                    class="text-md leading-6 font-medium text-gray-900"
-                                >
-                                    What are the parking and public transport
-                                    options?
-                                </h4>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-row items-start">
-                            <div
-                                class="bg-red-100 p-5 px-10 w-full flex items-center"
-                            >
-                                <p class="text-gray-700 text-sm">
-                                    The Balanced Chef provides both parking and
-                                    public transport options for our guests. We
-                                    have a dedicated parking lot available for
-                                    patrons, making it convenient for those who
-                                    prefer to drive. Additionally, there are
-                                    public transport stops within walking
-                                    distance of our restaurant, allowing easy
-                                    access for those using buses or trains.
-                                    Please check our website for more detailed
-                                    directions and information
-                                </p>
-                            </div>
-                            <div
-                                class="hidden sm:flex items-center justify-center p-3 ml-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
-                            >
-                                   <Icon name="person"
-                          class="h-6 w-6 text-white"
-
-                           />
-                            </div>
-                        </div>
-                    </li>
-                    <li class="text-left mb-10">
-                        <div class="flex flex-row items-start mb-5">
-                            <div
-                                class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
-                            >
-                               <Icon name="question"
-                          class="h-6 w-6 text-white"
-
-                           />
-                            </div>
-                            <div
-                                class="bg-gray-100 p-5 px-10 w-full flex items-center"
-                            >
-                                <h4
-                                    class="text-md leading-6 font-medium text-gray-900"
-                                >
-                                    What is your cancellation policy?
-                                </h4>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-row items-start">
-                            <div
-                                class="bg-red-100 p-5 px-10 w-full flex items-center"
-                            >
-                                <p class="text-gray-700 text-sm">
-                                    Our cancellation policy at The Balanced Chef
-                                    allows you to cancel your reservation up to
-                                    24 hours before your scheduled dining time
-                                    without any charges. However, for
-                                    cancellations made within 24 hours or
-                                    no-shows, a cancellation fee may be applied.
-                                    We understand that unforeseen circumstances
-                                    can arise, so please notify us as soon as
-                                    possible if you need to cancel or reschedule
-                                    your reservation.
-                                </p>
-                            </div>
-                            <div
-                                class="hidden sm:flex items-center justify-center p-3 ml-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
-                            >
-                                     <Icon name="person"
-                          class="h-6 w-6 text-white"
-
-                           />
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+          <h2 class="text-4xl font-bold text-black">The Balanced Chef</h2>
+          <p class="text-black">
+            "Bringing you a world of flavors and wholesome recipes to inspire
+            your culinary journey."
+          </p>
         </div>
+        <div class="p-6 xl:col-span-3">
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid content-center gap-4">
+              <div class="p-6 rounded shadow-md bg-black bg-opacity-100">
+                <p>
+                  "I never knew healthy food could taste this good! The Balanced
+                  Chef's recipes have transformed my meals into a delicious and
+                  guilt-free experience."
+                </p>
+                <div class="flex items-center mt-4 space-x-4">
+                  <Image
+                    src={img0}
+                    alt=""
+                    class="bg-center bg-cover rounded-full"
+                    width={45}
+                    height={45}
+                  />
+                  <div>
+                    <p class="text-lg font-semibold">Leroy Jenkins</p>
+                    <p class="text-sm text-gray-400">Food Enthusiast</p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6 rounded shadow-md bg-black">
+                <p>
+                  "The Balanced Chef's recipes have become a staple in my
+                  kitchen. They are not only nutritious but also bursting with
+                  flavor. I highly recommend trying their dishes!"
+                </p>
+                <div class="flex items-center mt-4 space-x-4">
+                  <Image
+                    src={img1}
+                    alt=""
+                    class="bg-center bg-cover rounded-full"
+                    width={45}
+                    height={45}
+                  />
+                  <div>
+                    <p class="text-lg font-semibold">Steward Masweneng</p>
+                    <p class="text-sm text-gray-400">Health Coach</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid content-center gap-4">
+              <div class="p-6 rounded shadow-md bg-black">
+                <p>
+                  "As a busy professional, I struggled to find time to cook
+                  nutritious meals. Thanks to The Balanced Chef's easy-to-follow
+                  recipes, I can now prepare healthy dishes in no time. It has
+                  been a game-changer for me!"
+                </p>
+                <div class="flex items-center mt-4 space-x-4">
+                  <Image
+                    src={img2}
+                    alt=""
+                    class="bg-center bg-cover rounded-full"
+                    width={45}
+                    height={45}
+                  />
+                  <div>
+                    <p class="text-lg font-semibold">Sophia Lee</p>
+                    <p class="text-sm text-gray-400">Marketing Executive</p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6 rounded shadow-md bg-black">
+                <p>
+                  "I've always struggled with finding healthy options that
+                  actually taste good. The Balanced Chef has exceeded my
+                  expectations with their flavorful and nourishing recipes. It's
+                  a game-changer for anyone looking to eat well without
+                  sacrificing taste!"
+                </p>
+                <div class="flex items-center mt-4 space-x-4">
+                  <Image
+                    src={img3}
+                    alt=""
+                    class="bg-center bg-cover rounded-full"
+                    width={45}
+                    height={45}
+                  />
+                  <div>
+                    <p class="text-lg font-semibold">Oliver Smith</p>
+                    <p class="text-sm text-gray-400">Fitness Enthusiast</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <div class="py-4 bg-white">
+    <div
+      class="max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between"
+    >
+      <div class="text-center">
+        <p class="mt-4 text-sm leading-7 text-gray-500 font-regular">F.A.Q</p>
+        <h3
+          class="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900"
+        >
+          Frequently Asked <span class="text-red-600">Questions</span>
+        </h3>
+      </div>
+
+      <div class="mt-20">
+        <ul class="">
+          <li class="text-left mb-10">
+            <div class="flex flex-row items-start mb-5">
+              <div
+                class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
+              >
+                <Icon name="question" class="h-6 w-6 text-white" />
+              </div>
+              <div class="bg-gray-100 p-5 px-10 w-full flex items-center">
+                <h4 class="text-md leading-6 font-medium text-gray-900">
+                  What are your opening hours?
+                </h4>
+              </div>
+            </div>
+
+            <div class="flex flex-row items-start">
+              <div class="bg-red-100 p-5 px-10 w-full flex items-center">
+                <p class="text-gray-700 text-sm">
+                  The Balanced Chef is open from Monday to Friday, 9:00 AM to
+                  10:00 PM. On Saturdays and Sundays, we are open from 10:00 AM
+                  to 11:00 PM. Please note that these hours are subject to
+                  change, so it's always a good idea to check our website or
+                  call us for the most up-to-date information.
+                </p>
+              </div>
+              <div
+                class="hidden sm:flex items-center justify-center p-3 ml-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
+              >
+                <Icon name="person" class="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </li>
+          <li class="text-left mb-10">
+            <div class="flex flex-row items-start mb-5">
+              <div
+                class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
+              >
+                <Icon name="question" class="h-6 w-6 text-white" />
+              </div>
+              <div class="bg-gray-100 p-5 px-10 w-full flex items-center">
+                <h4 class="text-md leading-6 font-medium text-gray-900">
+                  What are the parking and public transport options?
+                </h4>
+              </div>
+            </div>
+
+            <div class="flex flex-row items-start">
+              <div class="bg-red-100 p-5 px-10 w-full flex items-center">
+                <p class="text-gray-700 text-sm">
+                  The Balanced Chef provides both parking and public transport
+                  options for our guests. We have a dedicated parking lot
+                  available for patrons, making it convenient for those who
+                  prefer to drive. Additionally, there are public transport
+                  stops within walking distance of our restaurant, allowing easy
+                  access for those using buses or trains. Please check our
+                  website for more detailed directions and information
+                </p>
+              </div>
+              <div
+                class="hidden sm:flex items-center justify-center p-3 ml-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
+              >
+                <Icon name="person" class="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </li>
+          <li class="text-left mb-10">
+            <div class="flex flex-row items-start mb-5">
+              <div
+                class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
+              >
+                <Icon name="question" class="h-6 w-6 text-white" />
+              </div>
+              <div class="bg-gray-100 p-5 px-10 w-full flex items-center">
+                <h4 class="text-md leading-6 font-medium text-gray-900">
+                  What is your cancellation policy?
+                </h4>
+              </div>
+            </div>
+
+            <div class="flex flex-row items-start">
+              <div class="bg-red-100 p-5 px-10 w-full flex items-center">
+                <p class="text-gray-700 text-sm">
+                  Our cancellation policy at The Balanced Chef allows you to
+                  cancel your reservation up to 24 hours before your scheduled
+                  dining time without any charges. However, for cancellations
+                  made within 24 hours or no-shows, a cancellation fee may be
+                  applied. We understand that unforeseen circumstances can
+                  arise, so please notify us as soon as possible if you need to
+                  cancel or reschedule your reservation.
+                </p>
+              </div>
+              <div
+                class="hidden sm:flex items-center justify-center p-3 ml-3 rounded-full bg-red-500 text-white border-4 border-white text-xl font-semibold"
+              >
+                <Icon name="person" class="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,101 +1,100 @@
 ---
 import { Icon } from "astro-icon";
-import home0 from '../assets/howm.jpg'
-import { Image } from "@astrojs/image/components";
+import home0 from "../assets/howm.jpg";
+import { Image } from "astro:assets";
 ---
 
-<div class="relative pt-12 pb-8 bg-black xl:pt-24 sm:pb-12 lg:pb-20 xl:pb-24 2xl:pb-32">
-    <header class="absolute inset-x-0 top-0 z-10 py-4 xl:py-6">
-        <div class="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl">
-            <div class="flex items-center space-y-4 md:flex-row justify-between flex-col">
-                <div class="flex flex-shrink-0">
-                    <a href="/" class="flex items-center mb-2">
-                        <Icon name="Chef" class="h-14 w-14 text-red-500" />
-                        <span class="text-xl font-semibold text-white mt-1 ml-3">
-                            The Balanced Chef
-                        </span>
-                    </a>
-                </div>
-                
-                <nav class="md:ml- text-white md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center"><a
-                
-                   href="/blog/Card"  class="mr-5 hover:text-red-500">Recipes</a>
-<a href="/about" class="mr-5 hover:text-red-500">About</a>
-<a href="/contact" class="mr-5 hover:text-red-500">Contact</a>
-
-                </nav>
-            </div>
+<div
+  class="relative pt-12 pb-8 bg-black xl:pt-24 sm:pb-12 lg:pb-20 xl:pb-24 2xl:pb-32"
+>
+  <header class="absolute inset-x-0 top-0 z-10 py-4 xl:py-6">
+    <div class="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl">
+      <div
+        class="flex items-center space-y-4 md:flex-row justify-between flex-col"
+      >
+        <div class="flex flex-shrink-0">
+          <a href="/" class="flex items-center mb-2">
+            <Icon name="Chef" class="h-14 w-14 text-red-500" />
+            <span class="text-xl font-semibold text-white mt-1 ml-3">
+              The Balanced Chef
+            </span>
+          </a>
         </div>
-    </header>
-    <div class="absolute inset-0 ">
-        <Image
-        src={home0}
-        width={1920}
-        height={1080}
-        alt="The Balanced Chef"
 
-        
-            class="object-cover w-full h-full filter brightness-75"
-           src={home0}
-            alt=""
-        />
+        <nav
+          class="md:ml- text-white md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center"
+        >
+          <a href="/blog/Card" class="mr-5 hover:text-red-500">Recipes</a>
+          <a href="/about" class="mr-5 hover:text-red-500">About</a>
+          <a href="/contact" class="mr-5 hover:text-red-500">Contact</a>
+        </nav>
+      </div>
     </div>
-    <div class="relative bg-opacity-75 ">
-        <div class="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl ">
-            <div class="w-full lg:w-2/3 xl:w-1/2 p-6 rounded-lg bg-black bg-opacity-50 mt-24 md:mt-8">
-                <h1 class="font-sans text-2xl font-semibold tracking-tight text-white sm:text-4xl">
-                    Master the basics
-                    
-                     of baking
-                </h1>
-                <p class="mt-4 tracking-tight text-white sm:mt-6">
-                    <span class="font-sans font-normal xl:text-4xl md:text-3xl  text-xl">The Balanced Chef</span><br />
-                    <span class="font-serif italic font-normal xl:text-5xl text-2xl ">Discover the perfect balance</span>
-                </p>
-                <p class="md:mt-8 mt-2 font-sans text-sm font-normal leading-6 text-white">
-                    The Balanced Chef offers a unique
-              
-                     culinary experience that blends flavors and ingredients to create
-                               <span class="relative inline-flex justify-center whitespace-nowrap sm:font-bold md:mx-2 ">
-                                <Icon name="under" 
+  </header>
+  <div class="absolute inset-0">
+    <Image
+      src={home0}
+      width={1920}
+      height={1080}
+      alt="The Balanced Chef"
+      class="object-cover w-full h-full filter brightness-75"
+      src={home0}
+      alt=""
+    />
+  </div>
+  <div class="relative bg-opacity-75">
+    <div class="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl">
+      <div
+        class="w-full lg:w-2/3 xl:w-1/2 p-6 rounded-lg bg-black bg-opacity-50 mt-24 md:mt-8"
+      >
+        <h1
+          class="font-sans text-2xl font-semibold tracking-tight text-white sm:text-4xl"
+        >
+          Master the basics of baking
+        </h1>
+        <p class="mt-4 tracking-tight text-white sm:mt-6">
+          <span class="font-sans font-normal xl:text-4xl md:text-3xl text-xl"
+            >The Balanced Chef</span
+          ><br />
+          <span class="font-serif italic font-normal xl:text-5xl text-2xl"
+            >Discover the perfect balance</span
+          >
+        </p>
+        <p
+          class="md:mt-8 mt-2 font-sans text-sm font-normal leading-6 text-white"
+        >
+          The Balanced Chef offers a unique culinary experience that blends
+          flavors and ingredients to create
+          <span
+            class="relative inline-flex justify-center whitespace-nowrap sm:font-bold md:mx-2"
+          >
+            <Icon
+              name="under"
               class="absolute -bottom-2 hidden w-28 text-red-400 sm:block"
-                                 />
+            />
 
-               
             nutritious and delicious
-                </span>
-                   
-                      meals. Join us on a journey to explore the world of balanced cooking and elevate your culinary skills.
-                </p>
-                <div class="flex items-center mt-6 space-x-4">
-                    <a href="/blog/Card" title="Get balanced cooking" 
+          </span>
 
-
-                    class="inline-flex items-center justify-center px-4 py-2 font-sans text-sm font-semibold transition-all duration-200 border-2  border-red-500 rounded-full hover:bg-red-500  bg-white  hover:text-white" >
-                        <span
-                        class="
-                        font-serif
-                        italic
-                        font-normal
-                        sm:text-xl
-                      "
-
-
-                        
-
-
-                         
-
-                        
-                        >Get balanced cooking</span>
-                        <Icon name="ph:cooking-pot" class="w- hover:text-white h-8 ml-2  mt-1 animate-bounce" />
-                     
-                    </a>
-                </div>
-            </div>
+          meals. Join us on a journey to explore the world of balanced cooking
+          and elevate your culinary skills.
+        </p>
+        <div class="flex items-center mt-6 space-x-4">
+          <a
+            href="/blog/Card"
+            title="Get balanced cooking"
+            class="inline-flex items-center justify-center px-4 py-2 font-sans text-sm font-semibold transition-all duration-200 border-2 border-red-500 rounded-full hover:bg-red-500 bg-white hover:text-white"
+          >
+            <span class="font-serif italic font-normal sm:text-xl"
+              >Get balanced cooking</span
+            >
+            <Icon
+              name="ph:cooking-pot"
+              class="w- hover:text-white h-8 ml-2 mt-1 animate-bounce"
+            />
+          </a>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-
-
-
