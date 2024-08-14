@@ -1,19 +1,104 @@
 ---
-import { getFirstBlogPost, UrlForImage } from "../../lib/api";
+import { getRecipes, urlForImage, getAuthors, getTags } from "@lib/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon";
 import type { PostProps } from "../../../Type";
+import { marked } from "marked";
+import Prose from "@components/Prose.astro";
+
 export async function getStaticPaths() {
-  const allBlogPosts = await getFirstBlogPost();
-  return allBlogPosts.map((post: { slug: { current: any } }) => ({
-    params: {
-      slug: post.slug.current,
-    },
-    props: {
-      post,
-    },
-  }));
+  const allRecipePosts = (await getRecipes()).items;
+  // console.log(allRecipePosts);
+
+  const authors = await getAuthors();
+
+  const tags = await getTags();
+
+  return allRecipePosts.map((post: any) => {
+    // console.log(post);
+    const slug = post.flatData.slug;
+
+    const origin = {
+      params: {
+        slug,
+      },
+      props: {
+        post,
+      },
+    };
+
+    const authorId = post.flatData.author?.[0]?.id;
+    if (!authorId) {
+      console.warn("Author ID is missing in item:", post);
+      return origin;
+    }
+
+    const author = authors.items?.find(
+      (x: { id: string }) => x.id === authorId
+    );
+    if (!author) {
+      console.warn("Author not found for ID:", authorId);
+      return origin;
+    }
+    // console.log(author);
+
+    // if (author.flatData) {
+    //   post.flatData.author[0].name = author.flatData.name;
+    //   post.flatData.author[0].image = [];
+    //   post.flatData.author[0].image[0] = author.flatData.image?.[0];
+    // } else {
+    //   console.warn("Author flatData is missing for ID:", authorId);
+    // }
+
+    var recipeTags: string[] = [];
+    // console.log(post.flatData.tag?.[0]);
+    if (post.flatData.tag?.[0]) {
+      const tagIds = post.flatData.tag?.[0].children?.map(
+        (child: any) => child.id
+      );
+      // console.log(tagIds);
+
+      recipeTags = tagIds.map((id: string) => {
+        const tag = tags.items.find((item: any) => item.id === id);
+        return tag ? tag.flatData.name : null;
+      });
+    }
+
+    // const tagNames = recipeTags === undefined;
+    // console.log(recipeTags);
+
+    const content = marked.parse(post.flatData.body);
+
+    // console.log(post.flatData.nutrition);
+
+    const updatedPost = {
+      ...post,
+      flatData: {
+        ...post.flatData,
+        author: [
+          {
+            ...post.flatData.author[0],
+            name: author.flatData.name,
+            image: [author.flatData.image?.[0] || {}],
+            bio: [author.flatData.bio?.[0] || {}],
+          },
+        ],
+        tags: recipeTags,
+        body: content,
+      },
+    };
+    // console.log(updatedPost);
+
+    return {
+      params: {
+        slug: slug,
+      },
+      props: {
+        post: updatedPost,
+      },
+    };
+  });
 }
 
 const { post } = Astro.props as
@@ -21,16 +106,18 @@ const { post } = Astro.props as
   | { post: PostProps; preview: boolean };
 ---
 
-<Layout title={post.title}>
+<Layout title={post.flatData.title}>
   <div class="pt-4 xl:pl-10 mx-3">
+    <!-- back button -->
     <a
-      href="/blog/Card"
+      href="/"
       class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center transition duration-200 ease-in-out focus:outline-none"
     >
       <Icon name="Back" class="w-4 h-4 mr-2" />
 
       Back
     </a>
+
     <div
       class="max-w-4xl mx-auto p-7 my-10 bg-gradient-to-b from-red-50 to-red-100 shadow-2xl rounded-2xl"
     >
@@ -38,28 +125,30 @@ const { post } = Astro.props as
         <div class="max-w-3xl mx-auto">
           <!-- Title -->
           <h1 class="md:text-4xl text-2xl font-bold mb-4 text-gray-800">
-            {post.title}
+            {post.flatData.title}
           </h1>
 
           <!-- Author -->
           {
-            post.author && (
+            post.flatData.author && (
               <div class="flex items-center mb-4">
                 <div class="mr-4">
                   <Image
                     width={50}
                     height={50}
-                    src={UrlForImage(post.author.image).url()}
-                    alt={post.author.name}
+                    src={urlForImage(post.flatData.author[0].image?.[0].id)}
+                    alt={post.flatData.author[0].name}
                     class="rounded-full"
                   />
                 </div>
                 <div>
                   <p class="text-red-600 font-semibold">Written by</p>
-                  <p class="text-gray-700 font-semibold">{post.author.name}</p>
-                  {post.author.bio && (
+                  <p class="text-gray-700 font-semibold">
+                    {post.flatData.author[0].name}
+                  </p>
+                  {post.flatData.author[0].bio && (
                     <p class="text-gray-600 mt-1">
-                      {post.author.bio[0].children[0].text}
+                      {post.flatData.author[0].bio[0].text}
                     </p>
                   )}
                 </div>
@@ -69,18 +158,20 @@ const { post } = Astro.props as
 
           <!-- Published Date -->
           <p class="mb-4 italic text-xl font-semibold">
-            Published on {new Date(post.publishedAt).toLocaleDateString()}
+            Published on {
+              new Date(post.flatData.publishedAt).toLocaleDateString()
+            }
           </p>
 
           <!-- Main Image -->
           {
-            post.mainImage && (
+            post.flatData.mainImage && (
               <div class="mb-4">
                 <Image
                   width={850}
                   height={350}
-                  src={UrlForImage(post.mainImage).url()}
-                  alt={post.title}
+                  src={urlForImage(post.flatData.mainImage[0]?.id)}
+                  alt={post.flatData.title}
                   class="rounded-lg"
                 />
               </div>
@@ -88,19 +179,22 @@ const { post } = Astro.props as
           }
 
           <!-- Bio -->
+          <!-- this doesn't seem to be used -->
           {
-            post.bio && (
-              <h2 class="text-lg text-gray-800 mb-4">{post.bio.text}</h2>
+            post.flatData.bio && (
+              <h2 class="text-lg text-gray-800 mb-4">
+                {post.flatData.bio.text}
+              </h2>
             )
           }
 
           <!-- Tags -->
           {
-            post.tags && (
+            post.flatData.tags && (
               <div class="mb-4">
                 <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
                 <div class="flex flex-wrap">
-                  {post.tags.map((tag) => (
+                  {post.flatData.tags.map((tag) => (
                     <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
                       {tag}
                     </span>
@@ -114,66 +208,14 @@ const { post } = Astro.props as
 
       {/* Body */}
       <div class="mb-4">
-        {
-          post.body?.map((block, index) => {
-            if (block._type === "block") {
-              let blockStyle = "";
-              if (block.style === "h1") {
-                blockStyle = "text-4xl font-bold mb-4";
-              } else if (block.style === "h2") {
-                blockStyle = "text-3xl font-bold mb-4";
-              } else if (block.style === "h3") {
-                blockStyle = "text-2xl font-bold mb-4";
-              } else if (block.style === "h4") {
-                blockStyle =
-                  "md:text-xl md:font-bold bg-red-500 text-white  text-center md:mx-14";
-              } else if (block.style === "blockquote") {
-                blockStyle = "border-l-4 border-gray-900 pl-4 italic my-4";
-              } else if (block.style === "normal") {
-                blockStyle = "text-lg mb-4";
-              } else if (block.style === "bullet") {
-                blockStyle = "list-disc list-inside mb-4";
-              } else if (block.style === "number") {
-                blockStyle = "list-decimal list-inside mb-4";
-              }
-
-              if (block.listItem === "bullet" || block.listItem === "number") {
-                return (
-                  <li class={blockStyle}>
-                    {block.children.map((child) => child.text).join("")}
-                  </li>
-                );
-              } else {
-                return (
-                  <p class={`mb-4 ${blockStyle}`}>
-                    {block.children.map((child) => child.text).join("")}
-                  </p>
-                );
-              }
-            } else if (block._type === "image") {
-              return (
-                <div class="mb-4">
-                  <Image
-                    width={200}
-                    height={200}
-                    src={
-                      //@ts-ignore
-                      UrlForImage(block).url()
-                    }
-                    alt={post.title}
-                  />
-                </div>
-              );
-            } else {
-              return null;
-            }
-          })
-        }
+        <Prose>
+          <article set:html={post.flatData.body} />
+        </Prose>
       </div>
 
       {/* Nutrition */}
       {
-        post.nutrition && (
+        post.flatData.nutrition && (
           <div class="mb-4">
             <h2 class="text-2xl font-bold my-3  text-red-500">
               Nutrition Information
@@ -182,7 +224,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition.calories}
+                    {post.flatData.nutrition?.[0].calories}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -195,7 +237,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition.carbohydrates}
+                    {post.flatData.nutrition?.[0].carbohydrates}
                   </p>
                 </div>
                 <div class="ml-1">
@@ -208,7 +250,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition.fat}
+                    {post.flatData.nutrition?.[0].fat}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -219,7 +261,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition.protein}
+                    {post.flatData.nutrition?.[0].protein}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -233,6 +275,7 @@ const { post } = Astro.props as
           </div>
         )
       }
+
       <!-- Comments Section -->
       <div class="max-w-3xl mx-auto mt-8">
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Comments</h2>
