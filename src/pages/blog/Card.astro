@@ -1,6 +1,6 @@
 ---
 import { getPosts, urlForImage, getAuthors } from "@lib/api";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
 
 const posts = (await getPosts()).items;
 // console.log(posts);
@@ -116,7 +116,7 @@ recipesContents.map((item: any) => {
                     recipe.flatData.mainImage?.[0].id
                   )})`,
                 }}
-              ></div>
+              />
 
               {/* content */}
               <div class="p-4">
@@ -159,7 +159,8 @@ recipesContents.map((item: any) => {
               </div>
             </a>
           </article>
-        ))}
+        ))
+      }
     </div>
   </div>
 </section>
