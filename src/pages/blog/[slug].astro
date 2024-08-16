@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import { getRecipes, urlForImage, getAuthors, getTags } from "@lib/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
@@ -7,6 +9,72 @@ import type { PostProps } from "../../../Type";
 import { marked } from "marked";
 import Prose from "@components/Prose.astro";
 
+const { slug } = Astro.params;
+
+const allRecipePosts = (await getRecipes()).items;
+// console.log(allRecipePosts);
+const posts = allRecipePosts.map((item: any) => item.flatData);
+
+// TODO: Upgrading to Strong Type
+var post = posts.find((post: any) => post.slug === slug);
+// console.log(post);
+
+const authors = await getAuthors();
+
+const tags = await getTags();
+
+const authorId = post.author?.[0]?.id;
+if (!authorId) {
+  console.warn("Author ID is missing in item:", post);
+  // return origin;
+}
+
+const author = authors.items?.find((x: { id: string }) => x.id === authorId);
+if (!author) {
+  console.warn("Author not found for ID:", authorId);
+  // return origin;
+}
+
+var recipeTags: string[] = [];
+if (post.tag?.[0]) {
+  const tagIds = post.tag?.[0].children?.map((child: any) => child.id);
+
+  recipeTags = tagIds.map((id: string) => {
+    const tag = tags.items.find((item: any) => item.id === id);
+    // console.log(tag);
+    return tag ? tag.flatData.name : "";
+  });
+}
+
+const content = marked.parse(post.body);
+
+post = {
+  ...post,
+  flatData: {
+    ...post.flatData,
+    author: [
+      {
+        ...post.author[0],
+        name: author.flatData.name,
+        image: [author.flatData.image?.[0] || {}],
+        bio: [author.flatData.bio?.[0] || {}],
+      },
+    ],
+    tags: recipeTags,
+    body: content,
+  },
+};
+// console.log(post);
+
+// TODO: Add a 404 page
+// if (!post) return Astro.redirect("/404");
+
+// ------------------------------------------------------------------------- //
+
+// [WARN] [router] getStaticPaths() ignored in dynamic page /src/pages/blog/[slug].astro.
+// Since these are not “static” routes, getStaticPaths should not be used.
+// https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
+/** 
 export async function getStaticPaths() {
   const allRecipePosts = (await getRecipes()).items;
   // console.log(allRecipePosts);
@@ -101,13 +169,14 @@ export async function getStaticPaths() {
     };
   });
 }
+*/
 
-const { post } = Astro.props as
-  | { post: PostProps }
-  | { post: PostProps; preview: boolean };
+// const { post } = Astro.props as
+//   | { post: PostProps }
+//   | { post: PostProps; preview: boolean };
 ---
 
-<Layout title={post.flatData.title}>
+<Layout title={post.title}>
   <div class="pt-4 xl:pl-10 mx-3">
     <!-- back button -->
     <a
@@ -126,7 +195,7 @@ const { post } = Astro.props as
         <div class="max-w-3xl mx-auto">
           <!-- Title -->
           <h1 class="md:text-4xl text-2xl font-bold mb-4 text-gray-800">
-            {post.flatData.title}
+            {post.title}
           </h1>
 
           <!-- Author -->
@@ -159,20 +228,18 @@ const { post } = Astro.props as
 
           <!-- Published Date -->
           <p class="mb-4 italic text-xl font-semibold">
-            Published on {
-              new Date(post.flatData.publishedAt).toLocaleDateString()
-            }
+            Published on {new Date(post.publishedAt).toLocaleDateString()}
           </p>
 
           <!-- Main Image -->
           {
-            post.flatData.mainImage && (
+            post.mainImage && (
               <div class="mb-4">
                 <Image
                   width={850}
                   height={350}
-                  src={urlForImage(post.flatData.mainImage[0]?.id)}
-                  alt={post.flatData.title}
+                  src={urlForImage(post.mainImage[0]?.id)}
+                  alt={post.title}
                   class="rounded-lg"
                 />
               </div>
@@ -182,10 +249,8 @@ const { post } = Astro.props as
           <!-- Bio -->
           <!-- this doesn't seem to be used -->
           {
-            post.flatData.bio && (
-              <h2 class="text-lg text-gray-800 mb-4">
-                {post.flatData.bio.text}
-              </h2>
+            post.bio && (
+              <h2 class="text-lg text-gray-800 mb-4">{post.bio.text}</h2>
             )
           }
 
@@ -216,7 +281,7 @@ const { post } = Astro.props as
 
       {/* Nutrition */}
       {
-        post.flatData.nutrition && (
+        post.nutrition && (
           <div class="mb-4">
             <h2 class="ml-4 text-2xl font-bold my-6  text-red-500">
               Nutrition Information
@@ -225,7 +290,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.flatData.nutrition?.[0].calories}
+                    {post.nutrition?.[0].calories}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -238,7 +303,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.flatData.nutrition?.[0].carbohydrates}
+                    {post.nutrition?.[0].carbohydrates}
                   </p>
                 </div>
                 <div class="ml-1">
@@ -251,7 +316,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.flatData.nutrition?.[0].fat}
+                    {post.nutrition?.[0].fat}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -262,7 +327,7 @@ const { post } = Astro.props as
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.flatData.nutrition?.[0].protein}
+                    {post.nutrition?.[0].protein}
                   </p>
                 </div>
                 <div class="ml-4">
