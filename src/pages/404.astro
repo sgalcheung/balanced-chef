@@ -1,0 +1,39 @@
+---
+import Home from "@components/Home.astro";
+import Layout from "../layouts/Layout.astro";
+import BlankDishes from "../assets/blank_dishes.png";
+---
+
+<Layout title="Page not found">
+  <Home />
+  <section class="grid-container relative overflow-hidden">
+    <div class="my-auto flex h-full flex-col items-center justify-center gap-8">
+      <div class="mt-8 flex flex-col items-center text-center">
+        <h1
+          class="code text-5xl text-white sm:text-6xl md:text-7xl lg:text-8xl"
+        >
+          404
+        </h1>
+        <p class="mb-2 mt-3 lg:text-3xl">
+          We have a problem.
+        </p>
+        <p class="body">
+          We couldn’t find that link.<br class="sm:hidden" /> Check the address or
+          <a href="/" class="underline hover:text-red-500">head back home</a>.
+        </p>
+      </div>
+
+      <img
+        src={BlankDishes.src}
+        width={1920}
+        height={1080}
+        class="sm:56 h-48 w-auto animate-float md:h-64 lg:h-72"
+        alt=""
+      />
+    </div>
+    <div
+      class="bleed-full absolute inset-x-0 bottom-0 z-blur h-[50vw] translate-y-[60%] bg-blue-purple-gradient opacity-50 mask-radial-gradient"
+    >
+    </div>
+  </section>
+</Layout>
