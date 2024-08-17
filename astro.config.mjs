@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 
@@ -19,6 +19,10 @@ export default defineConfig({
   ],
   adapter: cloudflare({
     // [WARN] The currently selected adapter `@astrojs/cloudflare` is not compatible with the image service "Sharp".
-    imageService: 'cloudflare'
-  })
+    // imageService: 'cloudflare' // This service need payment, used no-op passthrough service instead.
+  }),
+  image: {
+    // Configure the passthroughImageService() to avoid both Squoosh and Sharp image processing
+    service: passthroughImageService(),
+  },
 });
