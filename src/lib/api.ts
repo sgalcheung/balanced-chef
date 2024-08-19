@@ -55,7 +55,7 @@ const TAG_FIELDS = `
     id,
     flatData {
       name
-    }`
+    }`;
 
 interface FetchAPIOptions {
   variables?: Record<string, any>;
@@ -66,11 +66,16 @@ interface FetchAPIResponse {
   errors?: any[];
 }
 
+const SQUIDEX_API_URI = `api/content/${
+  import.meta.env.SQUIDEX_APP_NAME
+}/graphql`;
+
+const SQUIDEX_API_URL = `${import.meta.env.SQUIDEX_ENVIRONMENT.replace(
+  /\/+$/,
+  ""
+)}/${SQUIDEX_API_URI}`;
+
 async function fetchAPI(query: string, { variables }: FetchAPIOptions = {}) {
-  const SQUIDEX_API_URL = `${import.meta.env.SQUIDEX_ENVIRONMENT.replace(
-    /\/+$/,
-    ""
-  )}/${import.meta.env.SQUIDEX_API_URI.replace(/^\/+/, "")}`;
   const res = await fetch(SQUIDEX_API_URL, {
     method: "POST",
     headers: {
@@ -124,7 +129,7 @@ export async function getAuthors() {
 }
 
 export async function getRecipes() {
-  const query =`
+  const query = `
     {
       queryRecipesContentsWithTotal {
         total,
@@ -134,9 +139,9 @@ export async function getRecipes() {
       }
     }`;
 
-    const data = await fetchAPI(query);
+  const data = await fetchAPI(query);
 
-    return data.queryRecipesContentsWithTotal;;
+  return data.queryRecipesContentsWithTotal;
 }
 
 export async function getTags() {
@@ -156,5 +161,7 @@ export async function getTags() {
 }
 
 export function urlForImage(source: string): string {
-  return `${import.meta.env.SQUIDEX_ENVIRONMENT}/api/assets/${import.meta.env.SQUIDEX_APP_NAME}/${source}`;
+  return `${import.meta.env.SQUIDEX_ENVIRONMENT}/api/assets/${
+    import.meta.env.SQUIDEX_APP_NAME
+  }/${source}`;
 }
