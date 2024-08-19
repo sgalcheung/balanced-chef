@@ -3,7 +3,17 @@ const RECIPE_FIELDS = `
     flatData {
         title,
         author {
-            id
+            ... on Authors {
+              flatData {
+                name
+                image {
+                  id
+                }
+                bio {
+                  text
+                }
+              }
+            }
         },
         publishedAt,
         mainImage {
@@ -12,7 +22,11 @@ const RECIPE_FIELDS = `
         bio,
         tag {
             children {
-                id
+                ... on Tags {
+                  flatData {
+                    name
+                  }
+                }
             }
         }
         body,
@@ -144,20 +158,17 @@ export async function getAuthors() {
   return data.queryAuthorsContentsWithTotal;
 }
 
-export async function getRecipes() {
+export async function getRecipe(slug: string | undefined) {
   const query = `
     {
-      queryRecipesContentsWithTotal {
-        total,
-        items {
+        queryRecipesContents(filter: "data/slug/iv eq '${slug}'") {
           ${RECIPE_FIELDS}
         }
-      }
     }`;
 
   const data = await fetchAPI(query);
 
-  return data.queryRecipesContentsWithTotal;
+  return data.queryRecipesContents?.[0];
 }
 
 export async function getTags() {
