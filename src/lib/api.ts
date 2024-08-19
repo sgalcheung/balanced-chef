@@ -26,17 +26,32 @@ const RECIPE_FIELDS = `
     }`;
 
 const POST_FIELDS = `
-    id,
+    id
     flatData {
-        publishedDate,
-        text {
-            text
-            contents {
-                ...on Recipes {
-                    ${RECIPE_FIELDS}
+      text {
+        contents {
+          ... on Recipes {
+            flatData {
+              title
+              slug
+              mainImage {
+                id
+              }
+              author {
+                ... on Authors {
+                  flatData {
+                    name
+                    image {
+                      id
+                    }
+                  }
                 }
+              }
+              publishedAt
             }
+          }
         }
+      }
     }`;
 
 const AUTHOR_FIELDS = `
@@ -96,20 +111,21 @@ async function fetchAPI(query: string, { variables }: FetchAPIOptions = {}) {
   return json.data;
 }
 
-export async function getPosts() {
+export async function getLatestPost() {
   const query = `
   {
-      queryPostsContentsWithTotal {
-          total,
-          items {
-              ${POST_FIELDS}
-          }
-      }
+      queryPostsContents(
+        filter: "data/published/iv eq true"
+        orderby: "data/publishedDate/iv desc"
+        top: 1
+      ) {
+          ${POST_FIELDS}
+        }
   }`;
 
   const data = await fetchAPI(query);
 
-  return data.queryPostsContentsWithTotal;
+  return data.queryPostsContents?.[0];
 }
 
 export async function getAuthors() {

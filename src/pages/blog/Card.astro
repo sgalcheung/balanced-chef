@@ -1,76 +1,13 @@
 ---
 export const prerender = false;
 
-import { getPosts, urlForImage, getAuthors } from "@lib/api";
+import { getLatestPost, urlForImage } from "@lib/api";
 import { Icon } from "astro-icon/components";
 
-const posts = (await getPosts()).items;
-// console.log(posts);
-// get the latest published post
-const latestPost = posts.reduce((latest: any, post: any) => {
-  // compare the current latest with the publishedDate of post
-  return new Date(post.flatData.publishedDate) >
-    new Date(latest.flatData.publishedDate)
-    ? post
-    : latest;
-}, posts[0]);
-// console.log(latestPost);
+const latestPost = await getLatestPost();
 
-const recipesText = latestPost.flatData.text.text;
-const recipesContents = latestPost.flatData.text.contents;
+const recipesContents = latestPost?.flatData?.text?.contents;
 
-const authors = await getAuthors();
-// console.log(authors);
-
-recipesContents.map((item: any) => {
-  // console.log(item.flatData.author[0].id);
-  const authorId = item.flatData.author?.[0]?.id;
-  if (!authorId) {
-    console.warn("Author ID is missing in item:", item);
-    return item;
-  }
-
-  const author = authors.items?.find((x: { id: string }) => x.id === authorId);
-  if (!author) {
-    console.warn("Author not found for ID:", authorId);
-    return item;
-  }
-
-  // console.log(author);
-  if (author.flatData) {
-    item.flatData.author[0].name = author.flatData.name;
-    item.flatData.author[0].image = [];
-    item.flatData.author[0].image[0] = author.flatData.image?.[0];
-  } else {
-    console.warn("Author flatData is missing for ID:", authorId);
-  }
-
-  // console.log(item.flatData.mainImage[0].id);
-  // console.log(item.flatData.author[0].image);
-
-  return item;
-});
-
-// function getPostsIds(posts: any) {
-//   const result = [];
-
-//   if (posts) {
-//     for (const post of posts) {
-//       if (post) {
-//         result.push(post.id);
-//       }
-
-//       if (post.flatData.text.contents) {
-//         for (const content of post.flatData.text.contents) {
-//           result.push(content.id);
-//         }
-//       }
-//     }
-//   }
-
-//   return result;
-// }
-// const postsIds = getPostsIds(posts);
 ---
 
 <section class="bg-white py-6 sm:py-8 lg:py-12">
@@ -103,65 +40,66 @@ recipesContents.map((item: any) => {
     >
       <!-- Article -->
       {
-        recipesContents.map((recipe: any) => (
-          <article class="bg-white rounded-lg shadow-xl overflow-hidden">
-            {/* photo */}
-            <a
-              class="block transition hover:scale-105"
-              title={recipe.flatData.title}
-              href={`/blog/${recipe.flatData.slug}`}
-            >
-              <div
-                class="h-52 bg-cover bg-center rounded-t-lg"
-                style={{
-                  backgroundImage: `url(${urlForImage(
-                    recipe.flatData.mainImage?.[0].id
-                  )})`,
-                }}
-              />
+        recipesContents &&
+          recipesContents.map((recipe: any) => (
+            <article class="bg-white rounded-lg shadow-xl overflow-hidden">
+              {/* photo */}
+              <a
+                class="block transition hover:scale-105"
+                title={recipe.flatData.title}
+                href={`/blog/${recipe.flatData.slug}`}
+              >
+                <div
+                  class="h-52 bg-cover bg-center rounded-t-lg"
+                  style={{
+                    backgroundImage: `url(${urlForImage(
+                      recipe.flatData.mainImage?.[0].id
+                    )})`,
+                  }}
+                />
 
-              {/* content */}
-              <div class="p-4">
-                <h2 class="mb-2 text-xl font-semibold text-gray-900 overflow-hidden h-14 md:h-16 lg:h-14 xl:h-16">
-                  {recipe.flatData.title}
-                </h2>
-                <div class="flex items-center mb-2">
-                  <div class="flex-shrink-0">
-                    {recipe.flatData.author.name}
-                    <img
-                      class="h-8 w-8 rounded-full object-cover"
-                      src={urlForImage(
-                        recipe.flatData.author?.[0].image?.[0].id
-                      )}
-                      alt={recipe.flatData.author.name}
-                    />
+                {/* content */}
+                <div class="p-4">
+                  <h2 class="mb-2 text-xl font-semibold text-gray-900 overflow-hidden h-14 md:h-16 lg:h-14 xl:h-16">
+                    {recipe.flatData.title}
+                  </h2>
+                  <div class="flex items-center mb-2">
+                    <div class="flex-shrink-0">
+                      {recipe.flatData.author?.[0].flatData.name}
+                      <img
+                        class="h-8 w-8 rounded-full object-cover"
+                        src={urlForImage(
+                          recipe.flatData.author?.[0].flatData.image?.[0].id
+                        )}
+                        alt={recipe.flatData.author?.[0].flatData.name}
+                      />
+                    </div>
+                    <div class="ml-2">
+                      <p class="text-sm font-medium text-gray-900">
+                        {recipe.flatData.author?.[0].flatData.name}
+                      </p>
+                      <p class="text-xs text-gray-600">
+                        {new Date(
+                          recipe.flatData.publishedAt
+                        ).toLocaleDateString()}
+                      </p>
+                    </div>
                   </div>
-                  <div class="ml-2">
-                    <p class="text-sm font-medium text-gray-900">
-                      {recipe.flatData.author?.[0].name}
-                    </p>
-                    <p class="text-xs text-gray-600">
-                      {new Date(
-                        recipe.flatData.publishedAt
-                      ).toLocaleDateString()}
-                    </p>
+
+                  {/* Read More */}
+                  <div>
+                    <a
+                      title={recipe.flatData.title}
+                      href={`/blog/${recipe.flatData.slug}`}
+                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm text-red-500 italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
+                    >
+                      Read More...
+                    </a>
                   </div>
                 </div>
-
-                {/* Read More */}
-                <div>
-                  <a
-                    title={recipe.flatData.title}
-                    href={`/blog/${recipe.flatData.slug}`}
-                    class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm text-red-500 italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
-                  >
-                    Read More...
-                  </a>
-                </div>
-              </div>
-            </a>
-          </article>
-        ))
+              </a>
+            </article>
+          ))
       }
     </div>
   </div>
