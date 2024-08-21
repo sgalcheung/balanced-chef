@@ -8,7 +8,9 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   output: "hybrid",
   integrations: [
-    tailwind(),
+    tailwind({
+      applyBaseStyles: false,
+    }),
     icon({
       include: {
         fluent: ["people-community-16-filled", "timer-16-filled"],
