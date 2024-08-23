@@ -39,6 +39,34 @@ const RECIPE_FIELDS = `
         slug
     }`;
 
+const PAGE_FIELDS = `
+    flatData {
+      text {
+        contents {
+          ... on Recipes {
+            flatData {
+              title
+              slug
+              mainImage {
+                id
+              }
+              author {
+                ... on Authors {
+                  flatData {
+                    name
+                    image {
+                      id
+                    }
+                  }
+                }
+              }
+              publishedAt
+            }
+          }
+        }
+      }
+    }`;
+
 const POST_FIELDS = `
     id
     flatData {
@@ -185,6 +213,19 @@ export async function getTags() {
   const data = await fetchAPI(query);
 
   return data.queryTagsContentsWithTotal;
+}
+
+export async function getPage() {
+  const query = `
+  {
+      findPageSingleton {
+          ${PAGE_FIELDS}
+        }
+  }`;
+
+  const data = await fetchAPI(query);
+
+  return data.findPageSingleton;
 }
 
 export function urlForImage(source: string): string {

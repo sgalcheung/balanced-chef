@@ -1,13 +1,12 @@
 ---
 export const prerender = false;
 
-import { getLatestPost, urlForImage } from "@lib/api";
+import { getPage, urlForImage } from "@lib/api";
 import { Icon } from "astro-icon/components";
 
-const latestPost = await getLatestPost();
+const page = await getPage();
 
-const recipesContents = latestPost?.flatData?.text?.contents;
-
+const recipesContents = page?.flatData?.text?.contents;
 ---
 
 <section class="bg-white py-6 sm:py-8 lg:py-12">
