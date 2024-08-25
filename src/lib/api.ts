@@ -1,7 +1,13 @@
+import type {
+  Page,
+  QueryPageResult,
+  QueryRecipesContentsResponse,
+  Recipe,
+} from "./interfaces";
+
 const RECIPE_FIELDS = `
-    id,
     flatData {
-        title,
+        title
         author {
             ... on Authors {
               flatData {
@@ -15,10 +21,10 @@ const RECIPE_FIELDS = `
               }
             }
         },
-        publishedAt,
+        publishedAt
         mainImage {
             id
-        },
+        }
         bio,
         tag {
             children {
@@ -29,13 +35,13 @@ const RECIPE_FIELDS = `
                 }
             }
         }
-        body,
+        body
         nutrition {
-            calories,
-            carbohydrates,
-            fat,
+            calories
+            carbohydrates
+            fat
             protein
-        },
+        }
         slug
     }`;
 
@@ -186,7 +192,7 @@ export async function getAuthors() {
   return data.queryAuthorsContentsWithTotal;
 }
 
-export async function getRecipe(slug: string | undefined) {
+export async function getRecipe(slug: string | undefined): Promise<Recipe> {
   const query = `
     {
         queryRecipesContents(filter: "data/slug/iv eq '${slug}'") {
@@ -196,7 +202,10 @@ export async function getRecipe(slug: string | undefined) {
 
   const data = await fetchAPI(query);
 
-  return data.queryRecipesContents?.[0];
+  // 类型断言
+  const response = data as QueryRecipesContentsResponse;
+  
+  return response.queryRecipesContents?.[0];
 }
 
 export async function getTags() {
@@ -215,7 +224,7 @@ export async function getTags() {
   return data.queryTagsContentsWithTotal;
 }
 
-export async function getPage() {
+export async function getPage(): Promise<Page> {
   const query = `
   {
       findPageSingleton {
@@ -225,7 +234,10 @@ export async function getPage() {
 
   const data = await fetchAPI(query);
 
-  return data.findPageSingleton;
+  // 类型断言
+  const response = data as QueryPageResult;
+
+  return response.findPageSingleton;
 }
 
 export function urlForImage(source: string): string {
