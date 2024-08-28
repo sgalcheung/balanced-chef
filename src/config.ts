@@ -1,11 +1,25 @@
+import "dotenv/config";
+
 interface Config {
   squidexAppName?: string;
   squidexEnvironment?: string;
 }
 
+// Utility function to get environment variables based on the runtime environment
+// Reference: https://www.reddit.com/r/reactjs/comments/1e0wye1/conditionally_use_processenv_or_importmetaenv/
+const getEnvVariable = (key: string): string | undefined => {
+  if (import.meta.env) {
+    // Vite environment
+    return import.meta.env[key];
+  } else {
+    // Node.js environment
+    return process.env[key];
+  }
+};
+
 export const config: Config = {
-  squidexAppName: import.meta.env.SQUIDEX_APP_NAME || undefined,
-  squidexEnvironment: import.meta.env.SQUIDEX_ENVIRONMENT || undefined,
+  squidexAppName: getEnvVariable("SQUIDEX_APP_NAME"),
+  squidexEnvironment: getEnvVariable("SQUIDEX_ENVIRONMENT"),
 };
 
 export enum EndpointType {
