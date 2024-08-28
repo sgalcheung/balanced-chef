@@ -1,3 +1,4 @@
+import { getEndpoint, EndpointType } from "src/config";
 import type {
   Page,
   QueryPageResult,
@@ -129,17 +130,8 @@ interface FetchAPIResponse {
   errors?: any[];
 }
 
-const SQUIDEX_API_URI = `api/content/${
-  import.meta.env.SQUIDEX_APP_NAME
-}/graphql`;
-
-const SQUIDEX_API_URL = `${import.meta.env.SQUIDEX_ENVIRONMENT.replace(
-  /\/+$/,
-  ""
-)}/${SQUIDEX_API_URI}`;
-
 async function fetchAPI(query: string, { variables }: FetchAPIOptions = {}) {
-  const res = await fetch(SQUIDEX_API_URL, {
+  const res = await fetch(getEndpoint(EndpointType.GraphQL), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -241,7 +233,5 @@ export async function getPage(): Promise<Page> {
 }
 
 export function urlForImage(source: string): string {
-  return `${import.meta.env.SQUIDEX_ENVIRONMENT}/api/assets/${
-    import.meta.env.SQUIDEX_APP_NAME
-  }/${source}`;
+  return `${getEndpoint(EndpointType.Assets)}/${source}`;
 }
