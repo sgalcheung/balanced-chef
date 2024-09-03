@@ -126,11 +126,11 @@ export async function getStaticPaths() {
 
           <!-- Tags -->
           {
-            post?.tag!.length > 0 && (
+            post?.tag && post?.tag?.length > 0 && post.tag[0]?.children && post.tag[0]?.children?.length > 0 && (
               <div class="mb-4">
                 <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
                 <div class="flex flex-wrap">
-                  {post!.tag![0].children.map((child) => (
+                  {post.tag[0].children.map((child) => (
                     <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
                       {child.flatData.name}
                     </span>
