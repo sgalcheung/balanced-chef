@@ -1,7 +1,8 @@
 import * as process from "node:process";
 
-// Dynamically import dotenv functions
-if (process.env.NODE_ENV === "development") {
+
+// Dynamically import dotenv functions, only codegen, not Astro development
+if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
   // Import dotenv only in development environment
   require("dotenv").config();
 }
