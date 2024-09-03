@@ -3,11 +3,10 @@ export const prerender = false;
 
 import { getPage, urlForImage } from "@lib/api";
 import { Icon } from "astro-icon/components";
-import type { Page } from '@lib/interfaces'
 
-const page:Page  = await getPage();
+const { page } = await getPage();
 
-const recipesContents = page.flatData.text!.contents;
+const recipesContents = page?.flatData.text!.contents;
 ---
 
 <section class="bg-white py-6 sm:py-8 lg:py-12">
@@ -53,7 +52,7 @@ const recipesContents = page.flatData.text!.contents;
                   class="h-52 bg-cover bg-center rounded-t-lg"
                   style={{
                     backgroundImage: `url(${urlForImage(
-                      recipe.flatData.mainImage[0].id
+                      recipe.flatData.mainImage![0].id
                     )})`,
                   }}
                 />
@@ -68,14 +67,14 @@ const recipesContents = page.flatData.text!.contents;
                       <img
                         class="h-8 w-8 rounded-full object-cover"
                         src={urlForImage(
-                          recipe.flatData.author[0].flatData.image[0].id
+                          recipe.flatData.author![0].flatData.image![0].id
                         )}
-                        alt={recipe.flatData.author[0].flatData.name}
+                        alt={recipe.flatData.author![0].flatData.name}
                       />
                     </div>
                     <div class="ml-2">
                       <p class="text-sm font-medium text-gray-900">
-                        {recipe.flatData.author[0].flatData.name}
+                        {recipe.flatData.author![0].flatData.name}
                       </p>
                       <p class="text-xs text-gray-600">
                         {new Date(

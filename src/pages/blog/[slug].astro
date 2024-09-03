@@ -7,17 +7,16 @@ import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { marked } from "marked";
 import Prose from "@components/Prose.astro";
-import type { Recipe } from "@lib/interfaces";
 
 const { slug } = Astro.params;
 
-var recipePost: Recipe = await getRecipe(slug);
+const { recipes } = await getRecipe(slug);
 
-if (!recipePost) return Astro.redirect("/404");
+if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 
-var post = recipePost.flatData;
+var post = recipes?.[0]?.flatData;
 
-if (post) {
+if (post?.body) {
   const content = await marked.parse(post.body);
 
   post = {
@@ -47,7 +46,7 @@ export async function getStaticPaths() {
 //   | { post: PostProps; preview: boolean };
 ---
 
-<Layout title={post.title}>
+<Layout title={post.title!}>
   <div class="pt-4 xl:pl-10 mx-3">
     <!-- back button -->
     <a
@@ -77,8 +76,8 @@ export async function getStaticPaths() {
                   <Image
                     width={50}
                     height={50}
-                    src={urlForImage(post.author[0].flatData.image?.[0].id)}
-                    alt={post.author[0].flatData.name}
+                    src={urlForImage(post.author![0].flatData.image![0].id)}
+                    alt={post.author![0].flatData.name!}
                     class="rounded-full"
                   />
                 </div>
@@ -89,7 +88,7 @@ export async function getStaticPaths() {
                   </p>
                   {post.author[0].flatData.bio && (
                     <p class="text-gray-600 mt-1">
-                      {post.author[0].flatData.bio[0].text}
+                      {post.author[0].flatData.bio[0]?.text}
                     </p>
                   )}
                 </div>
@@ -109,8 +108,8 @@ export async function getStaticPaths() {
                 <Image
                   width={850}
                   height={350}
-                  src={urlForImage(post.mainImage[0]?.id)}
-                  alt={post.title}
+                  src={urlForImage(post.mainImage![0].id)}
+                  alt={post.title!}
                   class="rounded-lg"
                 />
               </div>
@@ -127,11 +126,11 @@ export async function getStaticPaths() {
 
           <!-- Tags -->
           {
-            post.tag.length > 0 && (
+            post?.tag!.length > 0 && (
               <div class="mb-4">
                 <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
                 <div class="flex flex-wrap">
-                  {post.tag[0].children.map((child: any) => (
+                  {post!.tag![0].children.map((child) => (
                     <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
                       {child.flatData.name}
                     </span>
@@ -152,7 +151,7 @@ export async function getStaticPaths() {
 
       {/* Nutrition */}
       {
-        post.nutrition.length > 0 && (
+        post?.nutrition!.length > 0 && (
           <div class="mb-4">
             <h2 class="ml-4 text-2xl font-bold my-6  text-red-500">
               Nutrition Information
@@ -161,7 +160,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition[0].calories}
+                    {post.nutrition![0].calories}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -174,7 +173,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition[0].carbohydrates}
+                    {post.nutrition![0].carbohydrates}
                   </p>
                 </div>
                 <div class="ml-1">
@@ -187,7 +186,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition[0].fat}
+                    {post.nutrition![0].fat}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -198,7 +197,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition[0].protein}
+                    {post.nutrition![0].protein}
                   </p>
                 </div>
                 <div class="ml-4">
