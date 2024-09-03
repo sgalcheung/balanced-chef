@@ -27,4 +27,10 @@ export default defineConfig({
     // Configure the passthroughImageService() to avoid both Squoosh and Sharp image processing
     service: passthroughImageService(),
   },
+  // https://docs.astro.build/en/guides/integrations-guide/cloudflare/#nodejs-compatibility
+  vite: {
+    ssr: {
+      external: ["node:util", "node:https", "dotenv"],
+    },
+  },
 });

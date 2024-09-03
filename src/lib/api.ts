@@ -1,4 +1,4 @@
-import { inspect } from "util";
+import { inspect } from "node:util";
 import { EndpointType, getEndpoint } from "src/config";
 import { executeOperation } from "./graphql";
 import type { PageQuery, QueryRecipeQuery } from "src/__generated__/graphql";
