@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
-    "generate": "graphql-codegen"
+    "generate": "NODE_ENV=development graphql-codegen"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^11.0.4",

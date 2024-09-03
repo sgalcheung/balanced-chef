@@ -1,4 +1,10 @@
-import "dotenv/config";
+import * as process from "node:process";
+
+// Dynamically import dotenv functions
+if (process.env.NODE_ENV === "development") {
+  // Import dotenv only in development environment
+  require("dotenv").config();
+}
 
 interface Config {
   squidexAppName?: string;
