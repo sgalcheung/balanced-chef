@@ -7,7 +7,8 @@ if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
   require("dotenv").config();
 }
 
-// Polyfill for Cloudflare
+// Polyfill for Cloudflare.
+// Importing polyfill.ts has no effect.
 if (import.meta.env.PROD) {
   const envClient = await import("astro:env/client");
   const { SQUIDEX_APP_NAME, SQUIDEX_ENVIRONMENT } = envClient;
