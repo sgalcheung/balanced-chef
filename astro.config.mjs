@@ -1,8 +1,9 @@
-import { defineConfig, passthroughImageService } from "astro/config";
+import { defineConfig, passthroughImageService, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 
 import cloudflare from "@astrojs/cloudflare";
+import polyfill from "./polyfill";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,6 +32,20 @@ export default defineConfig({
   vite: {
     ssr: {
       external: ["node:util", "node:process"],
+    },
+  },
+  experimental: {
+    env: {
+      schema: {
+        SQUIDEX_APP_NAME: envField.string({
+          context: "client",
+          access: "public",
+        }),
+        SQUIDEX_ENVIRONMENT: envField.string({
+          context: "client",
+          access: "public",
+        }),
+      },
     },
   },
 });

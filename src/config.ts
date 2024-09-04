@@ -1,6 +1,5 @@
 import * as process from "node:process";
 
-
 // Dynamically import dotenv functions, only codegen, not Astro development
 if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
   // Import dotenv only in development environment
@@ -15,7 +14,7 @@ interface Config {
 // Utility function to get environment variables based on the runtime environment
 // Reference: https://www.reddit.com/r/reactjs/comments/1e0wye1/conditionally_use_processenv_or_importmetaenv/
 const getEnvVariable = (key: string): string | undefined => {
-  if (import.meta.env) {
+  if (import.meta.env && key in import.meta.env) {
     // Vite environment
     return import.meta.env[key];
   } else {
