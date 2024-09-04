@@ -1,10 +1,14 @@
 import * as process from "node:process";
+import { loadConfig } from "polyfill";
 
 // Dynamically import dotenv functions, only codegen, not Astro development
+// for codegen
 if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
   // Import dotenv only in development environment
   require("dotenv").config();
 }
+
+await loadConfig();
 
 interface Config {
   squidexAppName?: string;

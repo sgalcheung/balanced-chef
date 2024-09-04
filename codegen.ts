@@ -1,9 +1,16 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
-import { EndpointType, getEndpoint } from './src/config';
+import type { CodegenConfig } from "@graphql-codegen/cli";
+// import { EndpointType, getEndpoint } from './src/config';
+import "dotenv/config";
+
+const SQUIDEX_API_URL = `${process.env.SQUIDEX_ENVIRONMENT?.replace(
+  /\/+$/,
+  ""
+)}`;
 
 const config: CodegenConfig = {
-  require: ["dotenv/config", "ts-node/register"],
-  schema: getEndpoint(EndpointType.GraphQL),
+  require: ["dotenv/config"],
+  // schema: getEndpoint(EndpointType.GraphQL),
+  schema: `${SQUIDEX_API_URL}/api/content/${process.env.SQUIDEX_APP_NAME}/graphql`,
   documents: ["src/**/*.ts"],
   generates: {
     "./src/__generated__/": {

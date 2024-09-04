@@ -3,9 +3,6 @@ import { EndpointType, getEndpoint } from "src/config";
 import { executeOperation } from "./graphql";
 import type { PageQuery, QueryRecipeQuery } from "src/__generated__/graphql";
 import { graphql } from "src/__generated__/gql";
-import { loadConfig } from "polyfill";
-
-await loadConfig();
 
 const GRAPHQL_URL = getEndpoint(EndpointType.GraphQL);
 
