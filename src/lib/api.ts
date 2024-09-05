@@ -1,10 +1,10 @@
 import { inspect } from "node:util";
-import { EndpointType, getEndpoint } from "src/config";
+import { getEndpoint } from "src/config";
 import { executeOperation } from "./graphql";
 import type { PageQuery, QueryRecipeQuery } from "src/__generated__/graphql";
 import { graphql } from "src/__generated__/gql";
 
-const GRAPHQL_URL = getEndpoint(EndpointType.GraphQL);
+const GRAPHQL_URL = getEndpoint();
 
 export const getPage = async () => {
   const query = graphql(`

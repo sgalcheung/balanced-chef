@@ -38,23 +38,20 @@ export const config: Config = {
   squidexEnvironment: getEnvVariable("SQUIDEX_ENVIRONMENT"),
 };
 
-export enum EndpointType {
-  Assets,
-  GraphQL,
-}
-
-const SQUIDEX_API_URL = `${config.squidexEnvironment?.replace(/\/+$/, "")}`;
-
-export function getEndpoint(endponitType: EndpointType) {
+export function getEndpoint() {
   const { squidexAppName } = config;
 
-  switch (endponitType) {
-    case EndpointType.Assets:
-      return `${SQUIDEX_API_URL}/api/assets/${squidexAppName}`;
-    case EndpointType.GraphQL:
-      return `${SQUIDEX_API_URL}/api/content/${squidexAppName}/graphql`;
-    default:
-      const _exhaustiveCheck: never = endponitType;
-      return _exhaustiveCheck;
+  const GRAPHQL_URI = `api/content/${squidexAppName}/graphql`;
+
+  return buildUrl(GRAPHQL_URI);
+}
+
+function buildUrl(url: string) {
+  if (url.length > 0 && url.startsWith("/")) {
+    url = url.slice(1);
   }
+
+  const result = `${import.meta.env.SQUIDEX_ENVIRONMENT}/${url}`;
+
+  return result;
 }

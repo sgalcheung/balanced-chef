@@ -2,15 +2,22 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 // import { EndpointType, getEndpoint } from './src/config';
 import "dotenv/config";
 
-const SQUIDEX_API_URL = `${process.env.SQUIDEX_ENVIRONMENT?.replace(
-  /\/+$/,
-  ""
-)}`;
+function buildUrl(url: string) {
+  if (url.length > 0 && url.startsWith("/")) {
+    url = url.slice(1);
+  }
+
+  const result = `${import.meta.env.SQUIDEX_ENVIRONMENT}/${url}`;
+
+  return result;
+}
+
+const GRAPHQL_URI = `api/content/${process.env.SQUIDEX_APP_NAME}/graphql`;
 
 const config: CodegenConfig = {
   require: ["dotenv/config"],
   // schema: getEndpoint(EndpointType.GraphQL),
-  schema: `${SQUIDEX_API_URL}/api/content/${process.env.SQUIDEX_APP_NAME}/graphql`,
+  schema: `${buildUrl(GRAPHQL_URI)}`,
   documents: ["src/**/*.ts"],
   generates: {
     "./src/__generated__/": {
