@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { getRecipe, urlForImage } from "@lib/api";
+import { getRecipe } from "@lib/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
@@ -76,7 +76,7 @@ export async function getStaticPaths() {
                   <Image
                     width={50}
                     height={50}
-                    src={urlForImage(post.author![0].flatData.image![0].id)}
+                    src={post.author![0].flatData.image![0].url}
                     alt={post.author![0].flatData.name!}
                     class="rounded-full"
                   />
@@ -108,7 +108,7 @@ export async function getStaticPaths() {
                 <Image
                   width={850}
                   height={350}
-                  src={urlForImage(post.mainImage![0].id)}
+                  src={post.mainImage![0].url}
                   alt={post.title!}
                   class="rounded-lg"
                 />

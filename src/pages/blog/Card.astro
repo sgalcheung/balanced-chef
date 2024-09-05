@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { getPage, urlForImage } from "@lib/api";
+import { getPage } from "@lib/api";
 import { Icon } from "astro-icon/components";
 
 const { page } = await getPage();
@@ -51,9 +51,7 @@ const recipesContents = page?.flatData.text!.contents;
                 <div
                   class="h-52 bg-cover bg-center rounded-t-lg"
                   style={{
-                    backgroundImage: `url(${urlForImage(
-                      recipe.flatData.mainImage![0].id
-                    )})`,
+                    backgroundImage: `url(${recipe.flatData.mainImage![0].url})`,
                   }}
                 />
 
@@ -66,9 +64,7 @@ const recipesContents = page?.flatData.text!.contents;
                     <div class="flex-shrink-0">
                       <img
                         class="h-8 w-8 rounded-full object-cover"
-                        src={urlForImage(
-                          recipe.flatData.author![0].flatData.image![0].id
-                        )}
+                        src={recipe.flatData.author![0].flatData.image![0].url}
                         alt={recipe.flatData.author![0].flatData.name}
                       />
                     </div>

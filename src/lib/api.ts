@@ -18,14 +18,14 @@ export const getPage = async () => {
                   title
                   slug
                   mainImage {
-                    id
+                    url
                   }
                   author {
                     ... on Authors {
                       flatData {
                         name
                         image {
-                          id
+                          url
                         }
                       }
                     }
@@ -62,7 +62,7 @@ export async function getRecipe(
               flatData {
                 name
                 image {
-                  id
+                  url
                 }
                 bio {
                   text
@@ -72,7 +72,7 @@ export async function getRecipe(
           }
           publishedAt
           mainImage {
-            id
+            url
           }
           bio
           tag {
@@ -106,8 +106,4 @@ export async function getRecipe(
     }
     return r.data as QueryRecipeQuery;
   });
-}
-
-export function urlForImage(source: string): string {
-  return `${getEndpoint(EndpointType.Assets)}/${source}`;
 }
