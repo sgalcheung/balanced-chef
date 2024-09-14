@@ -17,7 +17,7 @@ const GRAPHQL_URI = `api/content/${process.env.SQUIDEX_APP_NAME}/graphql`;
 const config: CodegenConfig = {
   require: ["dotenv/config"],
   // schema: getEndpoint(EndpointType.GraphQL),
-  schema: `${buildUrl(GRAPHQL_URI)}`,
+  schema: buildUrl(GRAPHQL_URI),
   documents: ["src/**/*.ts"],
   generates: {
     "./src/__generated__/": {

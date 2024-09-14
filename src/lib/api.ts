@@ -40,7 +40,7 @@ export const getPage = async () => {
     }
   `);
 
-  return executeOperation(GRAPHQL_URL, query).then((r) => {
+  return await executeOperation(GRAPHQL_URL, query).then((r) => {
     if (r.errors) {
       console.log(inspect(r.errors, { depth: Infinity, colors: true }));
       throw new Error("Failed to execute GraphQL query");
@@ -97,7 +97,7 @@ export async function getRecipe(
     }
   `);
 
-  return executeOperation(GRAPHQL_URL, query, {
+  return await executeOperation(GRAPHQL_URL, query, {
     filter: `data/slug/iv eq '${slug}'`,
   }).then((r) => {
     if (r.errors) {
