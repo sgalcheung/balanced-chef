@@ -1,72 +1,31 @@
 ---
 export const prerender = false;
 
-import { getRecipes, urlForImage, getAuthors, getTags } from "@lib/api";
+import { getRecipe } from "@lib/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import type { PostProps } from "../../../Type";
 import { marked } from "marked";
 import Prose from "@components/Prose.astro";
 
 const { slug } = Astro.params;
 
-const allRecipePosts = (await getRecipes()).items;
-// console.log(allRecipePosts);
-const posts = allRecipePosts.map((item: any) => item.flatData);
+const { recipes } = await getRecipe(slug);
 
-// TODO: Upgrading to Strong Type
-var post = posts.find((post: any) => post.slug === slug);
-// console.log(post);
+if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 
-const authors = await getAuthors();
+var post = recipes?.[0]?.flatData;
 
-const tags = await getTags();
+if (post?.body) {
+  const content = await marked.parse(post.body);
 
-const authorId = post.author?.[0]?.id;
-if (!authorId) {
-  console.warn("Author ID is missing in item:", post);
-  // return origin;
-}
-
-const author = authors.items?.find((x: { id: string }) => x.id === authorId);
-if (!author) {
-  console.warn("Author not found for ID:", authorId);
-  // return origin;
-}
-
-var recipeTags: string[] = [];
-if (post.tag?.[0]) {
-  const tagIds = post.tag?.[0].children?.map((child: any) => child.id);
-
-  recipeTags = tagIds.map((id: string) => {
-    const tag = tags.items.find((item: any) => item.id === id);
-    // console.log(tag);
-    return tag ? tag.flatData.name : "";
-  });
-}
-
-const content = marked.parse(post.body);
-
-post = {
-  ...post,
-  flatData: {
-    ...post.flatData,
-    author: [
-      {
-        ...post.author[0],
-        name: author.flatData.name,
-        image: [author.flatData.image?.[0] || {}],
-        bio: [author.flatData.bio?.[0] || {}],
-      },
-    ],
-    tags: recipeTags,
+  post = {
+    ...post,
     body: content,
-  },
-};
-// console.log(post);
+  };
+}
 
-if (!post) return Astro.redirect("/404");
+// console.log(post);
 
 // ------------------------------------------------------------------------- //
 
@@ -78,95 +37,7 @@ export async function getStaticPaths() {
   const allRecipePosts = (await getRecipes()).items;
   // console.log(allRecipePosts);
 
-  const authors = await getAuthors();
-
-  const tags = await getTags();
-
-  return allRecipePosts.map((post: any) => {
-    // console.log(post);
-    const slug = post.flatData.slug;
-
-    const origin = {
-      params: {
-        slug,
-      },
-      props: {
-        post,
-      },
-    };
-
-    const authorId = post.flatData.author?.[0]?.id;
-    if (!authorId) {
-      console.warn("Author ID is missing in item:", post);
-      return origin;
-    }
-
-    const author = authors.items?.find(
-      (x: { id: string }) => x.id === authorId
-    );
-    if (!author) {
-      console.warn("Author not found for ID:", authorId);
-      return origin;
-    }
-    // console.log(author);
-
-    // if (author.flatData) {
-    //   post.flatData.author[0].name = author.flatData.name;
-    //   post.flatData.author[0].image = [];
-    //   post.flatData.author[0].image[0] = author.flatData.image?.[0];
-    // } else {
-    //   console.warn("Author flatData is missing for ID:", authorId);
-    // }
-
-    var recipeTags: string[] = [];
-    // console.log(post.flatData.tag?.[0]);
-    if (post.flatData.tag?.[0]) {
-      const tagIds = post.flatData.tag?.[0].children?.map(
-        (child: any) => child.id
-      );
-      // console.log(tagIds);
-
-      recipeTags = tagIds.map((id: string) => {
-        const tag = tags.items.find((item: any) => item.id === id);
-        return tag ? tag.flatData.name : null;
-      });
-    }
-
-    // const tagNames = recipeTags === undefined;
-    // console.log(recipeTags);
-
-    // console.log(post.flatData.body);
-    const content = marked.parse(post.flatData.body);
-
-    // console.log(post.flatData.nutrition);
-
-    const updatedPost = {
-      ...post,
-      flatData: {
-        ...post.flatData,
-        author: [
-          {
-            ...post.flatData.author[0],
-            name: author.flatData.name,
-            image: [author.flatData.image?.[0] || {}],
-            bio: [author.flatData.bio?.[0] || {}],
-          },
-        ],
-        tags: recipeTags,
-        body: content,
-      },
-    };
-    // console.log(updatedPost);
-
-    return {
-      params: {
-        slug: slug,
-      },
-      props: {
-        post: updatedPost,
-      },
-    };
-  });
+  ...
 }
 */
 
@@ -175,7 +46,7 @@ export async function getStaticPaths() {
 //   | { post: PostProps; preview: boolean };
 ---
 
-<Layout title={post.title}>
+<Layout title={post.title!}>
   <div class="pt-4 xl:pl-10 mx-3">
     <!-- back button -->
     <a
@@ -199,25 +70,25 @@ export async function getStaticPaths() {
 
           <!-- Author -->
           {
-            post.flatData.author && (
+            post.author && (
               <div class="flex items-center mb-4">
                 <div class="mr-4">
                   <Image
                     width={50}
                     height={50}
-                    src={urlForImage(post.flatData.author[0].image?.[0].id)}
-                    alt={post.flatData.author[0].name}
+                    src={post.author![0].flatData.image![0].url}
+                    alt={post.author![0].flatData.name!}
                     class="rounded-full"
                   />
                 </div>
                 <div>
                   <p class="text-red-600 font-semibold">Written by</p>
                   <p class="text-gray-700 font-semibold">
-                    {post.flatData.author[0].name}
+                    {post.author[0].flatData.name}
                   </p>
-                  {post.flatData.author[0].bio && (
+                  {post.author[0].flatData.bio && (
                     <p class="text-gray-600 mt-1">
-                      {post.flatData.author[0].bio[0].text}
+                      {post.author[0].flatData.bio[0]?.text}
                     </p>
                   )}
                 </div>
@@ -237,8 +108,8 @@ export async function getStaticPaths() {
                 <Image
                   width={850}
                   height={350}
-                  src={urlForImage(post.mainImage[0]?.id)}
-                  alt={post.title}
+                  src={post.mainImage![0].url}
+                  alt={post.title!}
                   class="rounded-lg"
                 />
               </div>
@@ -249,19 +120,19 @@ export async function getStaticPaths() {
           <!-- this doesn't seem to be used -->
           {
             post.bio && (
-              <h2 class="text-lg text-gray-800 mb-4">{post.bio.text}</h2>
+              <h2 class="text-lg text-gray-800 mb-4">{post.bio}</h2>
             )
           }
 
           <!-- Tags -->
           {
-            post.flatData.tags && (
+            post?.tag && post?.tag?.length > 0 && post.tag[0]?.children && post.tag[0]?.children?.length > 0 && (
               <div class="mb-4">
                 <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
                 <div class="flex flex-wrap">
-                  {post.flatData.tags.map((tag) => (
+                  {post.tag[0].children.map((child) => (
                     <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
-                      {tag}
+                      {child.flatData.name}
                     </span>
                   ))}
                 </div>
@@ -274,13 +145,13 @@ export async function getStaticPaths() {
       {/* Body */}
       <div class="mb-4">
         <Prose>
-          <article set:html={post.flatData.body} />
+          <article set:html={post.body} />
         </Prose>
       </div>
 
       {/* Nutrition */}
       {
-        post.nutrition && (
+        post?.nutrition!.length > 0 && (
           <div class="mb-4">
             <h2 class="ml-4 text-2xl font-bold my-6  text-red-500">
               Nutrition Information
@@ -289,7 +160,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition?.[0].calories}
+                    {post.nutrition![0].calories}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -302,7 +173,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition?.[0].carbohydrates}
+                    {post.nutrition![0].carbohydrates}
                   </p>
                 </div>
                 <div class="ml-1">
@@ -315,7 +186,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition?.[0].fat}
+                    {post.nutrition![0].fat}
                   </p>
                 </div>
                 <div class="ml-4">
@@ -326,7 +197,7 @@ export async function getStaticPaths() {
               <div class="flex items-center">
                 <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
                   <p class="text-2xl font-bold text-white">
-                    {post.nutrition?.[0].protein}
+                    {post.nutrition![0].protein}
                   </p>
                 </div>
                 <div class="ml-4">
