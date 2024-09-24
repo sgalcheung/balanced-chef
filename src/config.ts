@@ -11,14 +11,14 @@ if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
 // Importing polyfill.ts has no effect.
 if (import.meta.env.PROD) {
   const envClient = await import("astro:env/client");
-  const { SQUIDEX_APP_NAME, SQUIDEX_ENVIRONMENT } = envClient;
+  const { SQUIDEX_APP_NAME, SQUIDEX_URL } = envClient;
   process.env["SQUIDEX_APP_NAME"] = SQUIDEX_APP_NAME;
-  process.env["SQUIDEX_ENVIRONMENT"] = SQUIDEX_ENVIRONMENT;
+  process.env["SQUIDEX_URL"] = SQUIDEX_URL;
 }
 
 interface Config {
   squidexAppName?: string;
-  squidexEnvironment?: string;
+  squidexURL?: string;
 }
 
 // Utility function to get environment variables based on the runtime environment
@@ -35,7 +35,7 @@ const getEnvVariable = (key: string): string | undefined => {
 
 export const config: Config = {
   squidexAppName: getEnvVariable("SQUIDEX_APP_NAME"),
-  squidexEnvironment: getEnvVariable("SQUIDEX_ENVIRONMENT"),
+  squidexURL: getEnvVariable("SQUIDEX_URL"),
 };
 
 export function getEndpoint() {
@@ -51,7 +51,7 @@ function buildUrl(url: string) {
     url = url.slice(1);
   }
 
-  const result = `${import.meta.env.SQUIDEX_ENVIRONMENT}/${url}`;
+  const result = `${import.meta.env.SQUIDEX_URL}/${url}`;
 
   return result;
 }
