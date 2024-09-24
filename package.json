@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview",
+    "preview": "wrangler pages deploy dist",
     "astro": "astro",
     "typecheck": "astro check",
     "generate": "NODE_ENV=development graphql-codegen"
