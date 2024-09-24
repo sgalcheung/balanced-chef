@@ -6,7 +6,6 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -33,18 +32,16 @@ export default defineConfig({
       external: ["node:util", "node:process"],
     },
   },
-  experimental: {
-    env: {
-      schema: {
-        SQUIDEX_APP_NAME: envField.string({
-          context: "client",
-          access: "public",
-        }),
-        SQUIDEX_URL: envField.string({
-          context: "client",
-          access: "public",
-        }),
-      },
+  env: {
+    schema: {
+      SQUIDEX_APP_NAME: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      SQUIDEX_URL: envField.string({
+        context: "client",
+        access: "public",
+      }),
     },
   },
 });
