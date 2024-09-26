@@ -3,6 +3,7 @@ export const prerender = false;
 
 import { getPage } from "@lib/api";
 import { Icon } from "astro-icon/components";
+import { routes } from "../routing";
 
 const { page } = await getPage();
 
@@ -46,7 +47,7 @@ const recipesContents = page?.flatData.text!.contents;
               <a
                 class="block transition hover:scale-105"
                 title={recipe.flatData.title}
-                href={`/blog/${recipe.flatData.slug}`}
+                href={routes.blog(recipe.flatData.slug!)}
               >
                 <div
                   class="h-52 bg-cover bg-center rounded-t-lg"
@@ -84,7 +85,7 @@ const recipesContents = page?.flatData.text!.contents;
                   <div>
                     <a
                       title={recipe.flatData.title}
-                      href={`/blog/${recipe.flatData.slug}`}
+                      href={routes.blog(recipe.flatData.slug!)}
                       class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm text-red-500 italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
                     >
                       Read More...
