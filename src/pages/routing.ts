@@ -4,4 +4,7 @@ export const routes = {
   blog(slug: string) {
     return `/blog/${slug}`;
   },
+  image(id: string) {
+    return `/api/image/${id}`;
+  }
 };

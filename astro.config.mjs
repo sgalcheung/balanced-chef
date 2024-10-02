@@ -1,4 +1,4 @@
-import { defineConfig, passthroughImageService, envField } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 
@@ -24,7 +24,11 @@ export default defineConfig({
   }),
   image: {
     // Configure the passthroughImageService() to avoid both Squoosh and Sharp image processing
-    service: passthroughImageService(),
+    // service: passthroughImageService(),
+    // endpoint: {
+    //   route: "/_image",
+    //   entrypoint: "./src/image_endpoint.ts",
+    // },
   },
   // https://docs.astro.build/en/guides/integrations-guide/cloudflare/#nodejs-compatibility
   vite: {

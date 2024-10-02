@@ -38,7 +38,7 @@ export const config: Config = {
   squidexURL: getEnvVariable("SQUIDEX_URL"),
 };
 
-export function getEndpoint() {
+export function getGraphQLEndpoint() {
   const { squidexAppName } = config;
 
   const GRAPHQL_URI = `api/content/${squidexAppName}/graphql`;
@@ -54,4 +54,13 @@ function buildUrl(url: string) {
   const result = `${import.meta.env.SQUIDEX_URL}/${url}`;
 
   return result;
+}
+
+export function getAssertEnpoint(id: string, imageQuality: string) {
+  const { squidexAppName } = config;
+  const type = "WEBP";
+
+  const ASSERT_URI = `api/assets/${squidexAppName}/${id}?quality=${imageQuality}&format=${type}`;
+
+  return buildUrl(ASSERT_URI);
 }

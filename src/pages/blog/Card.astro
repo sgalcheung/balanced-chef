@@ -52,7 +52,7 @@ const recipesContents = page?.flatData.text!.contents;
                 <div
                   class="h-52 bg-cover bg-center rounded-t-lg"
                   style={{
-                    backgroundImage: `url(${recipe.flatData.mainImage![0].url})`,
+                    backgroundImage: `url(${routes.image(recipe.flatData.mainImage![0].id)})`,
                   }}
                 />
 
@@ -65,7 +65,7 @@ const recipesContents = page?.flatData.text!.contents;
                     <div class="flex-shrink-0">
                       <img
                         class="h-8 w-8 rounded-full object-cover"
-                        src={recipe.flatData.author![0].flatData.image![0].url}
+                        src={routes.image(recipe.flatData.author![0].flatData.image![0].id)}
                         alt={recipe.flatData.author![0].flatData.name}
                       />
                     </div>
