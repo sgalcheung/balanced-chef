@@ -1,10 +1,10 @@
 import { inspect } from "node:util";
-import { getAssertEnpoint, getGraphQLEndpoint } from "src/config";
+import { getEndpoint } from "src/config";
 import { executeOperation } from "./graphql";
 import type { PageQuery, QueryRecipeQuery } from "src/__generated__/graphql";
 import { graphql } from "src/__generated__/gql";
 
-const GRAPHQL_URL = getGraphQLEndpoint();
+const GRAPHQL_URL = getEndpoint();
 
 export const getPage = async () => {
   const query = graphql(`
@@ -18,14 +18,14 @@ export const getPage = async () => {
                   title
                   slug
                   mainImage {
-                    id
+                    url
                   }
                   author {
                     ... on Authors {
                       flatData {
                         name
                         image {
-                          id
+                          url
                         }
                       }
                     }
@@ -62,7 +62,7 @@ export async function getRecipe(
               flatData {
                 name
                 image {
-                  id
+                  url
                 }
                 bio {
                   text
@@ -72,7 +72,7 @@ export async function getRecipe(
           }
           publishedAt
           mainImage {
-            id
+            url
           }
           bio
           tag {
@@ -106,61 +106,4 @@ export async function getRecipe(
     }
     return r.data as QueryRecipeQuery;
   });
-}
-
-const imageCache = new Map();
-
-export type CmsImage = {
-  id: string;
-  buffer: ArrayBuffer;
-  type: string;
-  origin?: string;
-};
-
-export async function getFromCms(
-  id: string,
-  width?: string,
-  heigth?: string,
-  quality?: string
-): Promise<CmsImage | undefined> {
-  const imageQuality = quality ?? "100";
-
-  // We try to get the image from the cache
-  const cacheKey = `${id}/w${width ?? ""}/h${heigth ?? ""}/q${quality ?? ""}`;
-  const cachedData = imageCache.get(cacheKey);
-  if (cachedData) {
-    return {
-      id: id,
-      buffer: cachedData.buffer,
-      type: cachedData.contentType,
-      origin: "cache-cms",
-    };
-  }
-
-  let imageUrl = getAssertEnpoint(id, imageQuality);
-  if (width && heigth) {
-    imageUrl += `&width=${width}&height=${heigth}&mode=Max`;
-  }
-
-  const response = await fetch(imageUrl);
-  if (!response.ok) {
-    console.log(inspect(response.json, { depth: Infinity, colors: true }));
-    return undefined;
-  }
-
-  const contentType = response.headers.get("Content-Type") || "image/jpeg";
-  const imageBuffer = await response.arrayBuffer();
-
-  // The image is saved in the cache
-  imageCache.set(cacheKey, {
-    buffer: imageBuffer,
-    contentType: contentType,
-  });
-
-  return {
-    id: id,
-    buffer: imageBuffer,
-    type: contentType,
-    origin: "server-cms",
-  };
 }
