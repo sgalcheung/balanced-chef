@@ -1,13 +1,11 @@
-import { defineConfig, passthroughImageService, envField } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
-
 
 import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -26,7 +24,11 @@ export default defineConfig({
   }),
   image: {
     // Configure the passthroughImageService() to avoid both Squoosh and Sharp image processing
-    service: passthroughImageService(),
+    // service: passthroughImageService(),
+    // endpoint: {
+    //   route: "/_image",
+    //   entrypoint: "./src/image_endpoint.ts",
+    // },
   },
   // https://docs.astro.build/en/guides/integrations-guide/cloudflare/#nodejs-compatibility
   vite: {
@@ -34,18 +36,16 @@ export default defineConfig({
       external: ["node:util", "node:process"],
     },
   },
-  experimental: {
-    env: {
-      schema: {
-        SQUIDEX_APP_NAME: envField.string({
-          context: "client",
-          access: "public",
-        }),
-        SQUIDEX_ENVIRONMENT: envField.string({
-          context: "client",
-          access: "public",
-        }),
-      },
+  env: {
+    schema: {
+      SQUIDEX_APP_NAME: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      SQUIDEX_URL: envField.string({
+        context: "client",
+        access: "public",
+      }),
     },
   },
 });

@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 import home0 from "../assets/howm.jpg";
 import { Image } from "astro:assets";
+import { routes } from "src/pages/routing";
 ---
 
 <div
@@ -24,7 +25,7 @@ import { Image } from "astro:assets";
         <nav
           class="md:ml- text-white md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center"
         >
-          <a href="/blog/Card" class="mr-5 hover:text-red-500">Recipes</a>
+          <a href={routes.recipes()} class="mr-5 hover:text-red-500">Recipes</a>
           <a href="/about" class="mr-5 hover:text-red-500">About</a>
           <a href="/contact" class="mr-5 hover:text-red-500">Contact</a>
         </nav>
@@ -81,7 +82,7 @@ import { Image } from "astro:assets";
         </p>
         <div class="flex items-center mt-6 space-x-4">
           <a
-            href="/blog/Card"
+            href={routes.recipes()}
             title="Get balanced cooking"
             class="inline-flex items-center justify-center px-4 py-2 font-sans text-sm font-semibold transition-all duration-200 border-2 border-red-500 rounded-full hover:bg-red-500 bg-white hover:text-white"
           >

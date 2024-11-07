@@ -7,6 +7,7 @@ import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { marked } from "marked";
 import Prose from "@components/Prose.astro";
+import { routes } from "../routing";
 
 const { slug } = Astro.params;
 
@@ -76,7 +77,7 @@ export async function getStaticPaths() {
                   <Image
                     width={50}
                     height={50}
-                    src={post.author![0].flatData.image![0].url}
+                    src={routes.image(post.author![0].flatData.image![0].id)}
                     alt={post.author![0].flatData.name!}
                     class="rounded-full"
                   />
@@ -108,7 +109,7 @@ export async function getStaticPaths() {
                 <Image
                   width={850}
                   height={350}
-                  src={post.mainImage![0].url}
+                  src={routes.image(post.mainImage![0].id)}
                   alt={post.title!}
                   class="rounded-lg"
                 />
