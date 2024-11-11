@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import { getPage } from "@lib/api";
 import { Icon } from "astro-icon/components";
 import { routes } from "../routing";
@@ -65,7 +63,9 @@ const recipesContents = page?.flatData.text!.contents;
                     <div class="flex-shrink-0">
                       <img
                         class="h-8 w-8 rounded-full object-cover"
-                        src={routes.image(recipe.flatData.author![0].flatData.image![0].id)}
+                        src={routes.image(
+                          recipe.flatData.author![0].flatData.image![0].id
+                        )}
                         alt={recipe.flatData.author![0].flatData.name}
                       />
                     </div>

@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import { getRecipe } from "@lib/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
@@ -119,26 +117,25 @@ export async function getStaticPaths() {
 
           <!-- Bio -->
           <!-- this doesn't seem to be used -->
-          {
-            post.bio && (
-              <h2 class="text-lg text-gray-800 mb-4">{post.bio}</h2>
-            )
-          }
+          {post.bio && <h2 class="text-lg text-gray-800 mb-4">{post.bio}</h2>}
 
           <!-- Tags -->
           {
-            post?.tag && post?.tag?.length > 0 && post.tag[0]?.children && post.tag[0]?.children?.length > 0 && (
-              <div class="mb-4">
-                <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
-                <div class="flex flex-wrap">
-                  {post.tag[0].children.map((child) => (
-                    <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
-                      {child.flatData.name}
-                    </span>
-                  ))}
+            post?.tag &&
+              post?.tag?.length > 0 &&
+              post.tag[0]?.children &&
+              post.tag[0]?.children?.length > 0 && (
+                <div class="mb-4">
+                  <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
+                  <div class="flex flex-wrap">
+                    {post.tag[0].children.map((child) => (
+                      <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
+                        {child.flatData.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )
+              )
           }
         </div>
       </div>

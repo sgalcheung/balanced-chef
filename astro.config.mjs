@@ -17,6 +17,7 @@ export default defineConfig({
         ph: ["cooking-pot"],
       },
     }),
+    setPrerender(),
   ],
   adapter: cloudflare({
     // [WARN] The currently selected adapter `@astrojs/cloudflare` is not compatible with the image service "Sharp".
@@ -49,3 +50,24 @@ export default defineConfig({
     },
   },
 });
+
+function setPrerender() {
+  return {
+    name: "set-prerender",
+    hooks: {
+      "astro:route:setup": ({ route }) => {
+        const renderComponents = [
+          "/pages/index.astro",
+          "/pages/api/image/[id].ts",
+          "/pages/blog/[slug].astro",
+          "/pages/blog/Card.astro",
+        ];
+        renderComponents.some((item) => {
+          if (route.component.endsWith(item)) {
+            route.prerender = false;
+          }
+        });
+      },
+    },
+  };
+}
