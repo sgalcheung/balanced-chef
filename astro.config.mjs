@@ -39,11 +39,11 @@ export default defineConfig({
   env: {
     schema: {
       SQUIDEX_APP_NAME: envField.string({
-        context: "client",
+        context: "server",
         access: "public",
       }),
       SQUIDEX_URL: envField.string({
-        context: "client",
+        context: "server",
         access: "public",
       }),
     },
