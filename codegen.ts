@@ -1,5 +1,5 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
-// import { EndpointType, getEndpoint } from './src/config';
+// import { getGraphQLEndpoint } from "./src/config";
 import "dotenv/config";
 
 function buildUrl(url: string) {
@@ -18,6 +18,8 @@ const config: CodegenConfig = {
   require: ["dotenv/config"],
   // schema: getEndpoint(EndpointType.GraphQL),
   schema: buildUrl(GRAPHQL_URI),
+  // TODO: SyntaxError: await is only valid in async functions and the top level bodies of modules
+  // schema: getGraphQLEndpoint(),
   documents: ["src/**/*.ts"],
   generates: {
     "./src/__generated__/": {

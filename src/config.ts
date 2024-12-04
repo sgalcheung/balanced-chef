@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
 // Polyfill for Cloudflare.
 // Importing polyfill.ts has no effect.
 if (import.meta.env.PROD) {
-  const envClient = await import("astro:env/client");
+  const envClient = await import("astro:env/server");
   const { SQUIDEX_APP_NAME, SQUIDEX_URL } = envClient;
   process.env["SQUIDEX_APP_NAME"] = SQUIDEX_APP_NAME;
   process.env["SQUIDEX_URL"] = SQUIDEX_URL;
