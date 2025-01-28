@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "preview": "wrangler pages deploy dist",
+    "preview": "wrangler pages dev ./dist",
     "astro": "astro",
     "typecheck": "astro check",
     "generate": "NODE_ENV=development graphql-codegen"
@@ -32,7 +32,8 @@
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "wrangler": "^3.105.1"
   },
   "packageManager": "pnpm@9.7.1"
 }
