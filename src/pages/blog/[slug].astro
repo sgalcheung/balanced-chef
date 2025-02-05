@@ -16,12 +16,12 @@ if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 var post = recipes?.[0]?.flatData;
 
 if (post?.body) {
-  const content = await marked.parse(post.body);
+	const content = await marked.parse(post.body);
 
-  post = {
-    ...post,
-    body: content,
-  };
+	post = {
+		...post,
+		body: content,
+	};
 }
 
 // console.log(post);
