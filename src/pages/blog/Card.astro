@@ -5,7 +5,7 @@ import { routes } from "../routing";
 
 const { page } = await getPage();
 
-const recipesContents = page?.flatData.text!.contents;
+const recipesContents = page?.flatData?.text?.contents ?? [];
 ---
 
 <section class="bg-white py-6 sm:py-8 lg:py-12">
@@ -86,7 +86,7 @@ const recipesContents = page?.flatData.text!.contents;
                     <a
                       title={recipe.flatData.title}
                       href={routes.blog(recipe.flatData.slug!)}
-                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm text-red-500 italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
+                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
                     >
                       Read More...
                     </a>
