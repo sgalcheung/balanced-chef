@@ -1,19 +1,10 @@
 import * as process from "node:process";
-
-// Dynamically import dotenv functions, only codegen, not Astro development
-// for codegen
-if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
-	// Import dotenv only in development environment
-	require("dotenv").config();
-}
+import { SQUIDEX_APP_NAME, SQUIDEX_URL } from "astro:env/client";
 
 // Polyfill for Cloudflare.
-// Importing polyfill.ts has no effect.
 if (import.meta.env.PROD) {
-	const envClient = await import("astro:env/client");
-	const { SQUIDEX_APP_NAME, SQUIDEX_URL } = envClient;
-	process.env["SQUIDEX_APP_NAME"] = SQUIDEX_APP_NAME;
-	process.env["SQUIDEX_URL"] = SQUIDEX_URL;
+	process.env.SQUIDEX_APP_NAME = SQUIDEX_APP_NAME;
+	process.env.SQUIDEX_URL = SQUIDEX_URL;
 }
 
 interface Config {
@@ -27,10 +18,9 @@ const getEnvVariable = (key: string): string | undefined => {
 	if (import.meta.env && key in import.meta.env) {
 		// Vite environment
 		return import.meta.env[key];
-	} else {
-		// Node.js environment
-		return process.env[key];
 	}
+	// Node.js environment
+	return process.env[key];
 };
 
 export const config: Config = {
@@ -47,11 +37,12 @@ export function getGraphQLEndpoint() {
 }
 
 function buildUrl(url: string) {
-	if (url.length > 0 && url.startsWith("/")) {
-		url = url.slice(1);
+	let modifiedUrl = url;
+	if (modifiedUrl.length > 0 && modifiedUrl.startsWith("/")) {
+		modifiedUrl = modifiedUrl.slice(1);
 	}
 
-	const result = `${import.meta.env.SQUIDEX_URL}/${url}`;
+	const result = `${import.meta.env.SQUIDEX_URL}/${modifiedUrl}`;
 
 	return result;
 }

@@ -11,7 +11,7 @@
 		"typecheck": "astro check",
 		"check": "biome lint --write .",
 		"format": "biome format --write .",
-		"generate": "NODE_ENV=development graphql-codegen"
+		"generate": "NODE_OPTIONS='-r dotenv/config' graphql-codegen"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "12.0.0",

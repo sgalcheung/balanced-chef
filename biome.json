@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignore": ["public"]
+		"ignore": ["public", "generated"]
 	},
 	"organizeImports": {
 		"enabled": true

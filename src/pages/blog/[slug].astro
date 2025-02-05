@@ -13,7 +13,7 @@ const { recipes } = await getRecipe(slug);
 
 if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 
-var post = recipes?.[0]?.flatData;
+let post = recipes?.[0]?.flatData;
 
 if (post?.body) {
 	const content = await marked.parse(post.body);

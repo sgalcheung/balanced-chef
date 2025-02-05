@@ -1,8 +1,8 @@
 import { inspect } from "node:util";
 import { getAssertEnpoint, getGraphQLEndpoint } from "src/config";
 import { executeOperation } from "./graphql";
-import type { PageQuery, QueryRecipeQuery } from "src/__generated__/graphql";
-import { graphql } from "src/__generated__/gql";
+import type { PageQuery, QueryRecipeQuery } from "generated/gql/graphql";
+import { graphql } from "generated/gql/gql";
 
 const GRAPHQL_URL = getGraphQLEndpoint();
 
