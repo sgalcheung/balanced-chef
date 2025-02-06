@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getFromCms } from "@lib/api";
+import { getFromCms } from "@scripts/api";
 
 export const GET: APIRoute = async ({ params, url }) => {
 	const { id } = params;
