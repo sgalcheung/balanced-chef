@@ -8,8 +8,8 @@ if (import.meta.env.PROD) {
 }
 
 interface Config {
-	squidexAppName?: string;
-	squidexURL?: string;
+	squidexAppName?: string | undefined;
+	squidexURL?: string | undefined;
 }
 
 // Utility function to get environment variables based on the runtime environment
