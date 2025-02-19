@@ -1,6 +1,7 @@
 ---
 import { getPage } from "@scripts/api";
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import { routes } from "src/routing";
 
 const { page } = await getPage();
@@ -47,11 +48,24 @@ const recipesContents = page?.flatData?.text?.contents ?? [];
                 title={recipe.flatData.title}
                 href={routes.blog(recipe.flatData.slug!)}
               >
-                <div
+                {/* <div
                   class="h-52 bg-cover bg-center rounded-t-lg"
                   style={{
                     backgroundImage: `url(${routes.image(recipe.flatData.mainImage?.[0]?.id ?? "")})`,
                   }}
+                /> */}
+                {/* <img
+                  class="h-52 w-full object-cover bg-center rounded-t-lg"
+                  src={routes.image(recipe.flatData.mainImage?.[0]?.id ?? "")}
+                  alt={recipe.flatData.title}
+                /> */}
+
+                <Image
+                  class="h-52 w-full object-cover bg-center rounded-t-lg"
+                  src={routes.image(recipe.flatData.mainImage?.[0]?.id ?? "")}
+                  width={256}
+                  height={208}
+                  alt={recipe.flatData.title}
                 />
 
                 {/* content */}
@@ -61,12 +75,14 @@ const recipesContents = page?.flatData?.text?.contents ?? [];
                   </h2>
                   <div class="flex items-center mb-2">
                     <div class="flex-shrink-0">
-                      <img
+                      <Image
                         class="h-8 w-8 rounded-full object-cover"
                         src={routes.image(
                           recipe.flatData.author?.[0]?.flatData.image?.[0]
                             ?.id ?? ""
                         )}
+                        width={50}
+                        height={50}
                         alt={recipe.flatData.author?.[0]?.flatData.name ?? ""}
                       />
                     </div>

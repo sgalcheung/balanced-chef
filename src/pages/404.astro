@@ -2,6 +2,7 @@
 import Home from "@components/Home.astro";
 import Layout from "../layouts/Layout.astro";
 import BlankDishes from "../assets/blank_dishes.png";
+import { Image } from "astro:assets";
 ---
 
 <Layout title="Page not found">
@@ -14,21 +15,19 @@ import BlankDishes from "../assets/blank_dishes.png";
         >
           404
         </h1>
-        <p class="mb-2 mt-3 lg:text-3xl">
-          We have a problem.
-        </p>
+        <p class="mb-2 mt-3 lg:text-3xl">We have a problem.</p>
         <p class="body">
           We couldn’t find that link.<br class="sm:hidden" /> Check the address or
           <a href="/" class="underline hover:text-red-500">head back home</a>.
         </p>
       </div>
 
-      <img
-        src={BlankDishes.src}
+      <Image
+        src={BlankDishes}
         width={1920}
         height={1080}
-        class="sm:56 h-48 w-auto animate-float md:h-64 lg:h-72"
-        alt=""
+        class="h-48 md:h-64 lg:h-72 w-auto animate-float"
+        alt="404_image"
       />
     </div>
     <div

@@ -1,3 +1,6 @@
+// reference: https://devcloud.com.co/en/blog/image-optimization-with-astro-and-squidex
+
+
 import type { APIRoute } from "astro";
 import { getFromCms } from "@scripts/api";
 
