@@ -10,7 +10,7 @@ const recipesContents = page?.flatData?.text?.contents ?? [];
 ---
 
 <section class="bg-white py-6 sm:py-8 lg:py-12">
-  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+  <div class="mx-auto max-w-(--breakpoint-xl) px-4 md:px-8">
     <!-- Heading -->
     <div class="mb-10 md:mb-16">
       <h2
@@ -18,7 +18,7 @@ const recipesContents = page?.flatData?.text?.contents ?? [];
       >
         Recent Posts
       </h2>
-      <p class="mx-auto max-w-screen-md text-center text-gray-600 md:text-lg">
+      <p class="mx-auto max-w-(--breakpoint-md) text-center text-gray-600 md:text-lg">
         Discover
         <span
           class="relative inline-flex justify-center whitespace-nowrap font-bold mx-2"
@@ -74,7 +74,7 @@ const recipesContents = page?.flatData?.text?.contents ?? [];
                     {recipe.flatData.title}
                   </h2>
                   <div class="flex items-center mb-2">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                       <Image
                         class="h-8 w-8 rounded-full object-cover"
                         src={routes.image(
@@ -103,7 +103,7 @@ const recipesContents = page?.flatData?.text?.contents ?? [];
                     <a
                       title={recipe.flatData.title}
                       href={routes.blog(recipe.flatData.slug!)}
-                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
+                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-xs italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
                     >
                       Read More...
                     </a>

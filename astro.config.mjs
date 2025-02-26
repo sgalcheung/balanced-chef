@@ -1,5 +1,5 @@
 import { defineConfig, envField } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 
 import cloudflare from "@astrojs/cloudflare";
@@ -7,9 +7,6 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
 	integrations: [
-		tailwind({
-			applyBaseStyles: false,
-		}),
 		icon({
 			include: {
 				fluent: ["people-community-16-filled", "timer-16-filled"],
@@ -36,6 +33,7 @@ export default defineConfig({
 		ssr: {
 			external: ["node:util", "node:process"],
 		},
+		plugins: [tailwindcss()],
 	},
 	env: {
 		schema: {

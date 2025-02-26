@@ -52,13 +52,13 @@ export async function getStaticPaths() {
         {/* <!-- back button --> */}
         <a
           href="/"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center transition duration-200 ease-in-out focus:outline-none"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm inline-flex items-center transition duration-200 ease-in-out focus:outline-hidden"
         >
           <Icon name="Back" class="w-4 h-4 mr-2" />
           Back
         </a>
 
-        <div class="max-w-4xl mx-auto p-7 my-10 bg-gradient-to-b from-red-50 to-red-100 shadow-2xl rounded-2xl">
+        <div class="max-w-4xl mx-auto p-7 my-10 bg-linear-to-b from-red-50 to-red-100 shadow-2xl rounded-2xl">
           <div class="container mx-auto px-4 py-8">
             <div class="max-w-3xl mx-auto">
               {/* <!-- Title --> */}
@@ -218,7 +218,7 @@ export async function getStaticPaths() {
                   id="name"
                   name="name"
                   placeholder="Your name"
-                  class="mt-1 py-2 px-4 border border-red-300 rounded"
+                  class="mt-1 py-2 px-4 border border-red-300 rounded-sm"
                 />
               </div>
               <div class="flex flex-col mt-4">
@@ -230,12 +230,12 @@ export async function getStaticPaths() {
                   name="comment"
                   rows="4"
                   placeholder="Leave a comment"
-                  class="mt-1 py-2 px-4 border border-red-300 rounded"
+                  class="mt-1 py-2 px-4 border border-red-300 rounded-sm"
                 />
               </div>
               <button
                 type="submit"
-                class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
+                class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-sm hover:bg-red-600"
               >
                 Submit
               </button>
