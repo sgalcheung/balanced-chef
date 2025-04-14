@@ -30,9 +30,9 @@ export default defineConfig({
 	},
 	// https://docs.astro.build/en/guides/integrations-guide/cloudflare/#nodejs-compatibility
 	vite: {
-		ssr: {
-			external: ["node:util", "node:process"],
-		},
+		// ssr: {
+		// 	external: ["node:util", "node:process"],
+		// },
 		plugins: [tailwindcss()],
 	},
 	env: {
