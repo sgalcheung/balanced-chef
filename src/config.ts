@@ -41,12 +41,15 @@ export function getGraphQLEndpoint() {
 }
 
 function buildUrl(url: string) {
+
+  const { squidexURL } = config;
+
 	let modifiedUrl = url;
 	if (modifiedUrl.length > 0 && modifiedUrl.startsWith("/")) {
 		modifiedUrl = modifiedUrl.slice(1);
 	}
 
-	const result = `${import.meta.env.SQUIDEX_URL}/${modifiedUrl}`;
+  const result = `${squidexURL}/${modifiedUrl}`;
 
 	return result;
 }
