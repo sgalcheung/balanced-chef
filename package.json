@@ -14,12 +14,12 @@
 		"generate": "NODE_OPTIONS='-r dotenv/config' graphql-codegen-esm"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "12.2.1",
+		"@astrojs/cloudflare": "12.4.0",
 		"@iconify-json/fluent": "^1.1.62",
 		"@iconify-json/ic": "^1.1.18",
 		"@iconify-json/ph": "^1.1.14",
 		"@tailwindcss/vite": "^4.0.9",
-		"astro": "5.3.0",
+		"astro": "5.6.1",
 		"astro-icon": "^1.1.1",
 		"marked": "^14.0.0",
 		"sharp": "^0.33.5",
