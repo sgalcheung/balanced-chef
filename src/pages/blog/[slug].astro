@@ -3,9 +3,10 @@ import { getRecipe } from "@scripts/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import { marked } from "marked";
+// import { marked } from "marked";
 import Prose from "@components/Prose.astro";
 import { routes } from "src/routing";
+import { Markdown } from "astro-remote";
 
 const { slug } = Astro.params;
 
@@ -15,14 +16,14 @@ if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 
 let post = recipes?.[0]?.flatData;
 
-if (post?.body) {
-  const content = await marked.parse(post.body);
+// if (post?.body) {
+//   const content = await marked.parse(post.body);
 
-  post = {
-    ...post,
-    body: content,
-  };
-}
+//   post = {
+//     ...post,
+//     body: content,
+//   };
+// }
 
 // console.log(post);
 
@@ -73,7 +74,11 @@ export async function getStaticPaths() {
                     <Image
                       width={50}
                       height={50}
-                      src={post.author?.[0]?.flatData.image?.[0]?.id ? routes.image(post.author[0].flatData.image[0].id) : ''}
+                      src={
+                        post.author?.[0]?.flatData.image?.[0]?.id
+                          ? routes.image(post.author[0].flatData.image[0].id)
+                          : ""
+                      }
                       alt={post.author?.[0]?.flatData.name}
                       class="rounded-full"
                     />
@@ -103,7 +108,11 @@ export async function getStaticPaths() {
                   <Image
                     width={850}
                     height={350}
-                    src={post.mainImage?.[0]?.id ? routes.image(post.mainImage[0].id) : ''}
+                    src={
+                      post.mainImage?.[0]?.id
+                        ? routes.image(post.mainImage[0].id)
+                        : ""
+                    }
                     alt={post.title!}
                     class="rounded-lg"
                   />
@@ -138,7 +147,8 @@ export async function getStaticPaths() {
           {/* Body */}
           <div class="mb-4">
             <Prose>
-              <article set:html={post.body} />
+              {/* <article set:html={post.body} /> */}
+              <Markdown content={post.body ?? ''} />
             </Prose>
           </div>
 
@@ -152,7 +162,7 @@ export async function getStaticPaths() {
                 <div class="flex items-center">
                   <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
                     <p class="text-2xl font-bold text-white">
-                      {post.nutrition?.[0]?.calories ?? 'N/A'}
+                      {post.nutrition?.[0]?.calories ?? "N/A"}
                     </p>
                   </div>
                   <div class="ml-4">
