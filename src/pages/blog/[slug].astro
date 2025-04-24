@@ -3,7 +3,6 @@ import { getRecipe } from "@scripts/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-// import { marked } from "marked";
 import Prose from "@components/Prose.astro";
 import { routes } from "src/routing";
 import { Markdown } from "astro-remote";
@@ -14,36 +13,7 @@ const { recipes } = await getRecipe(slug);
 
 if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 
-let post = recipes?.[0]?.flatData;
-
-// if (post?.body) {
-//   const content = await marked.parse(post.body);
-
-//   post = {
-//     ...post,
-//     body: content,
-//   };
-// }
-
-// console.log(post);
-
-// ------------------------------------------------------------------------- //
-
-// [WARN] [router] getStaticPaths() ignored in dynamic page /src/pages/blog/[slug].astro.
-// Since these are not “static” routes, getStaticPaths should not be used.
-// https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
-/** 
-export async function getStaticPaths() {
-  const allRecipePosts = (await getRecipes()).items;
-  // console.log(allRecipePosts);
-
-  ...
-}
-*/
-
-// const { post } = Astro.props as
-//   | { post: PostProps }
-//   | { post: PostProps; preview: boolean };
+const post = recipes?.[0]?.flatData;
 ---
 
 {
