@@ -35,7 +35,7 @@
 		"dotenv": "^16.4.5",
 		"graphql": "^16.9.0",
 		"typescript": "^5.5.4",
-		"wrangler": "^3.105.1"
+		"wrangler": "^4.15.2"
 	},
 	"packageManager": "pnpm@9.7.1"
 }
