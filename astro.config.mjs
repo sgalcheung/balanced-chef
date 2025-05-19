@@ -1,4 +1,4 @@
-import { defineConfig, envField } from "astro/config";
+import { defineConfig, envField, passthroughImageService } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 
@@ -16,6 +16,9 @@ export default defineConfig({
     }),
     setPrerender(),
   ],
+  image: {
+    service: passthroughImageService(),
+  },
   adapter: cloudflare({
     imageService: "passthrough",
   }),
