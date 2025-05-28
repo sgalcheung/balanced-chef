@@ -53,6 +53,7 @@ function setPrerender() {
           "/pages/api/image/[id].ts",
           "/pages/blog/[slug].astro",
           "/pages/blog/Card.astro",
+          "/pages/fonts/[path].ts",
         ];
         renderComponents.some((item) => {
           if (route.component.endsWith(item)) {
