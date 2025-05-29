@@ -35,6 +35,11 @@ export default defineConfig({
         context: "server",
         access: "public",
       }),
+      FONTS_CDN_URL: envField.string({
+        context: "server",
+        access: "public",
+        default: "https://font-repo.pages.dev",
+      }),
     },
   },
 });
