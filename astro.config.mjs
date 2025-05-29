@@ -22,21 +22,17 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "passthrough",
   }),
-  // https://docs.astro.build/en/guides/integrations-guide/cloudflare/#nodejs-compatibility
   vite: {
-    // ssr: {
-    // 	external: ["node:util", "node:process"],
-    // },
     plugins: [tailwindcss()],
   },
   env: {
     schema: {
       SQUIDEX_APP_NAME: envField.string({
-        context: "client",
+        context: "server",
         access: "public",
       }),
       SQUIDEX_URL: envField.string({
-        context: "client",
+        context: "server",
         access: "public",
       }),
     },
