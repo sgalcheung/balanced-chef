@@ -1,10 +1,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
-@layer typography {
-  :root {
-    .font-sans {
-      font-family: Inter, inter-fallback, system-ui, sans-serif;
-    }
-  }
+@theme {
+  --font-sans: Inter, inter-fallback, system-ui, sans-serif;
 }
