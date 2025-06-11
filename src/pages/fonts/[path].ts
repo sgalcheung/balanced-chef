@@ -3,7 +3,7 @@ import { FONTS_CDN_URL } from "astro:env/server"
 
 export const GET: APIRoute = async ({ params, request }) => {
   const path = params.path;
-  const backendUrl = FONTS_CDN_URL.replace(/\/+$/, '') + '/' + path;
+  const backendUrl = `${FONTS_CDN_URL.replace(/\/+$/, '')}/${path}`;
   console.log("Fetching font from:", FONTS_CDN_URL);
 
   try {
