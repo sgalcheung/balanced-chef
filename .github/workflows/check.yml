@@ -6,6 +6,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      SQUIDEX_APP_NAME: ${{ vars.SQUIDEX_APP_NAME }}
+      SQUIDEX_URL: ${{ vars.SQUIDEX_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
