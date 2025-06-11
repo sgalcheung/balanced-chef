@@ -1,5 +1,5 @@
 import { inspect } from "node:util";
-import { getAssertEnpoint, getGraphQLEndpoint } from "src/config";
+import { getAssetEndpoint, getGraphQLEndpoint } from "src/config";
 import { executeOperation } from "./graphql";
 import type { PageQuery, QueryRecipeQuery } from "generated/gql/graphql";
 import { graphql } from "generated/gql/gql";
@@ -141,7 +141,7 @@ export async function getFromCms(
 		};
 	}
 
-	let imageUrl = getAssertEnpoint(id, imageQuality);
+  let imageUrl = getAssetEndpoint(id, imageQuality);
 	if (width && heigth) {
 		imageUrl += `&width=${width}&height=${heigth}&mode=Max`;
 	}

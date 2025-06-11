@@ -11,33 +11,18 @@ export const config: Config = {
   squidexURL: SQUIDEX_URL,
 };
 
-export function getGraphQLEndpoint() {
-  const { squidexAppName } = config;
-
-  const GRAPHQL_URI = `api/content/${squidexAppName}/graphql`;
-
-  return buildUrl(GRAPHQL_URI);
+function buildUrl(path: string): string {
+  const cleanPath = path.replace(/^\/+/, '');
+  return `${config.squidexURL}/${cleanPath}`;
 }
 
-function buildUrl(url: string) {
-
-  const { squidexURL } = config;
-
-  let modifiedUrl = url;
-  if (modifiedUrl.length > 0 && modifiedUrl.startsWith("/")) {
-    modifiedUrl = modifiedUrl.slice(1);
-  }
-
-  const result = `${squidexURL}/${modifiedUrl}`;
-
-  return result;
+export function getGraphQLEndpoint(): string {
+  const path = `api/content/${config.squidexAppName}/graphql`;
+  return buildUrl(path);
 }
 
-export function getAssertEnpoint(id: string, imageQuality: string) {
-  const { squidexAppName } = config;
-  const type = "WEBP";
-
-  const ASSERT_URI = `api/assets/${squidexAppName}/${id}?quality=${imageQuality}&format=${type}`;
-
-  return buildUrl(ASSERT_URI);
+export function getAssetEndpoint(id: string, imageQuality: string): string {
+  const format = "WEBP";
+  const path = `api/assets/${config.squidexAppName}/${id}?quality=${imageQuality}&format=${format}`;
+  return buildUrl(path);
 }
