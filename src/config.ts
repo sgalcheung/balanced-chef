@@ -1,66 +1,28 @@
-import * as process from "node:process";
-
-// Dynamically import dotenv functions, only codegen, not Astro development
-// for codegen
-if (process.env.NODE_ENV === "development" && !import.meta.env.DEV) {
-  // Import dotenv only in development environment
-  require("dotenv").config();
-}
-
-// Polyfill for Cloudflare.
-// Importing polyfill.ts has no effect.
-if (import.meta.env.PROD) {
-  const envClient = await import("astro:env/server");
-  const { SQUIDEX_APP_NAME, SQUIDEX_URL } = envClient;
-  process.env["SQUIDEX_APP_NAME"] = SQUIDEX_APP_NAME;
-  process.env["SQUIDEX_URL"] = SQUIDEX_URL;
-}
+// Already supported by Astro 5.6.
+import { SQUIDEX_APP_NAME, SQUIDEX_URL } from "astro:env/server";
 
 interface Config {
-  squidexAppName?: string;
-  squidexURL?: string;
+  squidexAppName?: string | undefined;
+  squidexURL?: string | undefined;
 }
-
-// Utility function to get environment variables based on the runtime environment
-// Reference: https://www.reddit.com/r/reactjs/comments/1e0wye1/conditionally_use_processenv_or_importmetaenv/
-const getEnvVariable = (key: string): string | undefined => {
-  if (import.meta.env && key in import.meta.env) {
-    // Vite environment
-    return import.meta.env[key];
-  } else {
-    // Node.js environment
-    return process.env[key];
-  }
-};
 
 export const config: Config = {
-  squidexAppName: getEnvVariable("SQUIDEX_APP_NAME"),
-  squidexURL: getEnvVariable("SQUIDEX_URL"),
+  squidexAppName: SQUIDEX_APP_NAME,
+  squidexURL: SQUIDEX_URL,
 };
 
-export function getGraphQLEndpoint() {
-  const { squidexAppName } = config;
-
-  const GRAPHQL_URI = `api/content/${squidexAppName}/graphql`;
-
-  return buildUrl(GRAPHQL_URI);
+function buildUrl(path: string): string {
+  const cleanPath = path.replace(/^\/+/, '');
+  return `${config.squidexURL}/${cleanPath}`;
 }
 
-function buildUrl(url: string) {
-  if (url.length > 0 && url.startsWith("/")) {
-    url = url.slice(1);
-  }
-
-  const result = `${import.meta.env.SQUIDEX_URL}/${url}`;
-
-  return result;
+export function getGraphQLEndpoint(): string {
+  const path = `api/content/${config.squidexAppName}/graphql`;
+  return buildUrl(path);
 }
 
-export function getAssertEnpoint(id: string, imageQuality: string) {
-  const { squidexAppName } = config;
-  const type = "WEBP";
-
-  const ASSERT_URI = `api/assets/${squidexAppName}/${id}?quality=${imageQuality}&format=${type}`;
-
-  return buildUrl(ASSERT_URI);
+export function getAssetEndpoint(id: string, imageQuality: string): string {
+  const format = "WEBP";
+  const path = `api/assets/${config.squidexAppName}/${id}?quality=${imageQuality}&format=${format}`;
+  return buildUrl(path);
 }

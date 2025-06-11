@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 import home0 from "../assets/howm.jpg";
 import { Image } from "astro:assets";
-import { routes } from "src/pages/routing";
+import { routes } from "src/routing";
 ---
 
 <div
@@ -13,7 +13,7 @@ import { routes } from "src/pages/routing";
       <div
         class="flex items-center space-y-4 md:flex-row justify-between flex-col"
       >
-        <div class="flex flex-shrink-0">
+        <div class="flex shrink-0">
           <a href="/" class="flex items-center mb-2">
             <Icon name="Chef" class="h-14 w-14 text-red-500" />
             <span class="text-xl font-semibold text-white mt-1 ml-3">
@@ -39,8 +39,6 @@ import { routes } from "src/pages/routing";
       height={1080}
       alt="The Balanced Chef"
       class="object-cover w-full h-full filter brightness-75"
-      src={home0}
-      alt=""
     />
   </div>
   <div class="relative bg-opacity-75">

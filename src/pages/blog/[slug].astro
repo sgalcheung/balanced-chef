@@ -1,11 +1,11 @@
 ---
-import { getRecipe } from "@lib/api";
+import { getRecipe } from "@scripts/api";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import { marked } from "marked";
 import Prose from "@components/Prose.astro";
-import { routes } from "../routing";
+import { routes } from "src/routing";
+import { Markdown } from "astro-remote";
 
 const { slug } = Astro.params;
 
@@ -13,235 +13,216 @@ const { recipes } = await getRecipe(slug);
 
 if (!recipes || recipes.length > 1) return Astro.redirect("/404");
 
-var post = recipes?.[0]?.flatData;
-
-if (post?.body) {
-  const content = await marked.parse(post.body);
-
-  post = {
-    ...post,
-    body: content,
-  };
-}
-
-// console.log(post);
-
-// ------------------------------------------------------------------------- //
-
-// [WARN] [router] getStaticPaths() ignored in dynamic page /src/pages/blog/[slug].astro.
-// Since these are not “static” routes, getStaticPaths should not be used.
-// https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
-/** 
-export async function getStaticPaths() {
-  const allRecipePosts = (await getRecipes()).items;
-  // console.log(allRecipePosts);
-
-  ...
-}
-*/
-
-// const { post } = Astro.props as
-//   | { post: PostProps }
-//   | { post: PostProps; preview: boolean };
+const post = recipes?.[0]?.flatData;
 ---
 
-<Layout title={post.title!}>
-  <div class="pt-4 xl:pl-10 mx-3">
-    <!-- back button -->
-    <a
-      href="/"
-      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center transition duration-200 ease-in-out focus:outline-none"
-    >
-      <Icon name="Back" class="w-4 h-4 mr-2" />
+{
+  post && (
+    <Layout title={post.title!}>
+      <div class="pt-4 xl:pl-10 mx-3">
+        {/* <!-- back button --> */}
+        <a
+          href="/"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm inline-flex items-center transition duration-200 ease-in-out focus:outline-hidden"
+        >
+          <Icon name="Back" class="w-4 h-4 mr-2" />
+          Back
+        </a>
 
-      Back
-    </a>
+        <div class="max-w-4xl mx-auto p-7 my-10 bg-linear-to-b from-red-50 to-red-100 shadow-2xl rounded-2xl">
+          <div class="container mx-auto px-4 py-8">
+            <div class="max-w-3xl mx-auto">
+              {/* <!-- Title --> */}
+              <h1 class="md:text-4xl text-2xl font-bold mb-4 text-gray-800">
+                {post.title}
+              </h1>
 
-    <div
-      class="max-w-4xl mx-auto p-7 my-10 bg-gradient-to-b from-red-50 to-red-100 shadow-2xl rounded-2xl"
-    >
-      <div class="container mx-auto px-4 py-8">
-        <div class="max-w-3xl mx-auto">
-          <!-- Title -->
-          <h1 class="md:text-4xl text-2xl font-bold mb-4 text-gray-800">
-            {post.title}
-          </h1>
-
-          <!-- Author -->
-          {
-            post.author && (
-              <div class="flex items-center mb-4">
-                <div class="mr-4">
-                  <Image
-                    width={50}
-                    height={50}
-                    src={routes.image(post.author![0].flatData.image![0].id)}
-                    alt={post.author![0].flatData.name!}
-                    class="rounded-full"
-                  />
-                </div>
-                <div>
-                  <p class="text-red-600 font-semibold">Written by</p>
-                  <p class="text-gray-700 font-semibold">
-                    {post.author[0].flatData.name}
-                  </p>
-                  {post.author[0].flatData.bio && (
-                    <p class="text-gray-600 mt-1">
-                      {post.author[0].flatData.bio[0]?.text}
+              {/* <!-- Author --> */}
+              {post.author && (
+                <div class="flex items-center mb-4">
+                  <div class="mr-4">
+                    <Image
+                      width={50}
+                      height={50}
+                      src={
+                        post.author?.[0]?.flatData.image?.[0]?.id
+                          ? routes.image(post.author[0].flatData.image[0].id)
+                          : ""
+                      }
+                      alt={post.author?.[0]?.flatData.name}
+                      class="rounded-full"
+                    />
+                  </div>
+                  <div>
+                    <p class="text-red-600 font-semibold">Written by</p>
+                    <p class="text-gray-700 font-semibold">
+                      {post.author?.[0]?.flatData.name}
                     </p>
-                  )}
-                </div>
-              </div>
-            )
-          }
-
-          <!-- Published Date -->
-          <p class="mb-4 italic text-xl font-semibold">
-            Published on {new Date(post.publishedAt).toLocaleDateString()}
-          </p>
-
-          <!-- Main Image -->
-          {
-            post.mainImage && (
-              <div class="mb-4">
-                <Image
-                  width={850}
-                  height={350}
-                  src={routes.image(post.mainImage![0].id)}
-                  alt={post.title!}
-                  class="rounded-lg"
-                />
-              </div>
-            )
-          }
-
-          <!-- Bio -->
-          <!-- this doesn't seem to be used -->
-          {post.bio && <h2 class="text-lg text-gray-800 mb-4">{post.bio}</h2>}
-
-          <!-- Tags -->
-          {
-            post?.tag &&
-              post?.tag?.length > 0 &&
-              post.tag[0]?.children &&
-              post.tag[0]?.children?.length > 0 && (
-                <div class="mb-4">
-                  <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
-                  <div class="flex flex-wrap">
-                    {post.tag[0].children.map((child) => (
-                      <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
-                        {child.flatData.name}
-                      </span>
-                    ))}
+                    {post.author?.[0]?.flatData.bio && (
+                      <p class="text-gray-600 mt-1">
+                        {post.author[0].flatData.bio[0]?.text}
+                      </p>
+                    )}
                   </div>
                 </div>
-              )
-          }
-        </div>
-      </div>
+              )}
 
-      {/* Body */}
-      <div class="mb-4">
-        <Prose>
-          <article set:html={post.body} />
-        </Prose>
-      </div>
+              {/* <!-- Published Date --> */}
+              <p class="mb-4 italic text-xl font-semibold">
+                Published on {new Date(post.publishedAt).toLocaleDateString()}
+              </p>
 
-      {/* Nutrition */}
-      {
-        post?.nutrition!.length > 0 && (
+              {/* <!-- Main Image --> */}
+              {post.mainImage && (
+                <div class="mb-4">
+                  <Image
+                    width={850}
+                    height={350}
+                    src={
+                      post.mainImage?.[0]?.id
+                        ? routes.image(post.mainImage[0].id)
+                        : ""
+                    }
+                    alt={post.title!}
+                    class="rounded-lg"
+                  />
+                </div>
+              )}
+
+              {/* <!-- Bio --> */}
+              {/* <!-- this doesn't seem to be used --> */}
+              {post.bio && (
+                <h2 class="text-lg text-gray-800 mb-4">{post.bio}</h2>
+              )}
+
+              {/* <!-- Tags --> */}
+              {post?.tag &&
+                post?.tag?.length > 0 &&
+                post.tag[0]?.children &&
+                post.tag[0]?.children?.length > 0 && (
+                  <div class="mb-4">
+                    <h2 class="text-2xl font-bold mb-2 text-gray-800">Tags</h2>
+                    <div class="flex flex-wrap">
+                      {post.tag[0].children.map((child) => (
+                        <span class="bg-gray-200 text-gray-800 rounded-full px-4 py-2 text-sm font-semibold mr-2 mb-2">
+                          {child.flatData.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+            </div>
+          </div>
+
+          {/* Body */}
           <div class="mb-4">
-            <h2 class="ml-4 text-2xl font-bold my-6  text-red-500">
-              Nutrition Information
-            </h2>
-            <div class="grid justify-items-center grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="flex items-center">
-                <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
-                  <p class="text-2xl font-bold text-white">
-                    {post.nutrition![0].calories}
-                  </p>
+            <Prose>
+              {/* <article set:html={post.body} /> */}
+              <Markdown content={post.body ?? ''} />
+            </Prose>
+          </div>
+
+          {/* Nutrition */}
+          {post?.nutrition!.length > 0 && (
+            <div class="mb-4">
+              <h2 class="ml-4 text-2xl font-bold my-6  text-red-500">
+                Nutrition Information
+              </h2>
+              <div class="grid justify-items-center grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="flex items-center">
+                  <div class="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
+                    <p class="text-2xl font-bold text-white">
+                      {post.nutrition?.[0]?.calories ?? "N/A"}
+                    </p>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-lg font-semibold mb-1 text-gray-900">
+                      Calories
+                    </p>
+                    <p class="text-gray-600">per serving</p>
+                  </div>
                 </div>
-                <div class="ml-4">
-                  <p class="text-lg font-semibold mb-1 text-gray-900">
-                    Calories
-                  </p>
-                  <p class="text-gray-600">per serving</p>
+                <div class="flex items-center">
+                  <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
+                    <p class="text-2xl font-bold text-white">
+                      {post.nutrition?.[0]?.carbohydrates}
+                    </p>
+                  </div>
+                  <div class="ml-1">
+                    <p class="text-lg font-semibold mb-1 text-gray-900">
+                      Carbohydrates
+                    </p>
+                    <p class="text-gray-600">per serving</p>
+                  </div>
                 </div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
-                  <p class="text-2xl font-bold text-white">
-                    {post.nutrition![0].carbohydrates}
-                  </p>
+                <div class="flex items-center">
+                  <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
+                    <p class="text-2xl font-bold text-white">
+                      {post.nutrition?.[0]?.fat}
+                    </p>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-lg font-semibold mb-1 text-gray-900">Fat</p>
+                    <p class="text-gray-600">per serving</p>
+                  </div>
                 </div>
-                <div class="ml-1">
-                  <p class="text-lg font-semibold mb-1 text-gray-900">
-                    Carbohydrates
-                  </p>
-                  <p class="text-gray-600">per serving</p>
-                </div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
-                  <p class="text-2xl font-bold text-white">
-                    {post.nutrition![0].fat}
-                  </p>
-                </div>
-                <div class="ml-4">
-                  <p class="text-lg font-semibold mb-1 text-gray-900">Fat</p>
-                  <p class="text-gray-600">per serving</p>
-                </div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
-                  <p class="text-2xl font-bold text-white">
-                    {post.nutrition![0].protein}
-                  </p>
-                </div>
-                <div class="ml-4">
-                  <p class="text-lg font-semibold mb-1 text-gray-900">
-                    Protein
-                  </p>
-                  <p class="text-gray-600">per serving</p>
+                <div class="flex items-center">
+                  <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
+                    <p class="text-2xl font-bold text-white">
+                      {post.nutrition?.[0]?.protein}
+                    </p>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-lg font-semibold mb-1 text-gray-900">
+                      Protein
+                    </p>
+                    <p class="text-gray-600">per serving</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )
-      }
+          )}
 
-      <!-- Comments Section -->
-      <div class="max-w-3xl mx-auto mt-8">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Comments</h2>
+          {/* <!-- Comments Section --> */}
+          <div class="max-w-3xl mx-auto mt-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Comments</h2>
 
-        <!-- Comment Form -->
-        <form class="mb-4">
-          <div class="flex flex-col">
-            <label for="name" class="text-gray-700">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Your name"
-              class="mt-1 py-2 px-4 border border-red-300 rounded"
-            />
+            {/* <!-- Comment Form --> */}
+            <form class="mb-4">
+              <div class="flex flex-col">
+                <label for="name" class="text-gray-700">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Your name"
+                  class="mt-1 py-2 px-4 border border-red-300 rounded-sm"
+                />
+              </div>
+              <div class="flex flex-col mt-4">
+                <label for="comment" class="text-gray-700">
+                  Comment
+                </label>
+                <textarea
+                  id="comment"
+                  name="comment"
+                  rows="4"
+                  placeholder="Leave a comment"
+                  class="mt-1 py-2 px-4 border border-red-300 rounded-sm"
+                />
+              </div>
+              <button
+                type="submit"
+                class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-sm hover:bg-red-600"
+              >
+                Submit
+              </button>
+            </form>
           </div>
-          <div class="flex flex-col mt-4">
-            <label for="comment" class="text-gray-700">Comment</label>
-            <textarea
-              id="comment"
-              name="comment"
-              rows="4"
-              placeholder="Leave a comment"
-              class="mt-1 py-2 px-4 border border-red-300 rounded"></textarea>
-          </div>
-          <button
-            type="submit"
-            class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
-            >Submit</button
-          >
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
-</Layout>
+    </Layout>
+  )
+}

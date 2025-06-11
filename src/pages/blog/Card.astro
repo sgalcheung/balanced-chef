@@ -1,15 +1,16 @@
 ---
-import { getPage } from "@lib/api";
+import { getPage } from "@scripts/api";
 import { Icon } from "astro-icon/components";
-import { routes } from "../routing";
+import { Image } from "astro:assets";
+import { routes } from "src/routing";
 
 const { page } = await getPage();
 
-const recipesContents = page?.flatData.text!.contents;
+const recipesContents = page?.flatData?.text?.contents ?? [];
 ---
 
 <section class="bg-white py-6 sm:py-8 lg:py-12">
-  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+  <div class="mx-auto max-w-(--breakpoint-xl) px-4 md:px-8">
     <!-- Heading -->
     <div class="mb-10 md:mb-16">
       <h2
@@ -17,7 +18,7 @@ const recipesContents = page?.flatData.text!.contents;
       >
         Recent Posts
       </h2>
-      <p class="mx-auto max-w-screen-md text-center text-gray-600 md:text-lg">
+      <p class="mx-auto max-w-(--breakpoint-md) text-center text-gray-600 md:text-lg">
         Discover
         <span
           class="relative inline-flex justify-center whitespace-nowrap font-bold mx-2"
@@ -47,11 +48,24 @@ const recipesContents = page?.flatData.text!.contents;
                 title={recipe.flatData.title}
                 href={routes.blog(recipe.flatData.slug!)}
               >
-                <div
+                {/* <div
                   class="h-52 bg-cover bg-center rounded-t-lg"
                   style={{
-                    backgroundImage: `url(${routes.image(recipe.flatData.mainImage![0].id)})`,
+                    backgroundImage: `url(${routes.image(recipe.flatData.mainImage?.[0]?.id ?? "")})`,
                   }}
+                /> */}
+                {/* <img
+                  class="h-52 w-full object-cover bg-center rounded-t-lg"
+                  src={routes.image(recipe.flatData.mainImage?.[0]?.id ?? "")}
+                  alt={recipe.flatData.title}
+                /> */}
+
+                <Image
+                  class="h-52 w-full object-cover bg-center rounded-t-lg"
+                  src={routes.image(recipe.flatData.mainImage?.[0]?.id ?? "")}
+                  width={256}
+                  height={208}
+                  alt={recipe.flatData.title}
                 />
 
                 {/* content */}
@@ -60,18 +74,21 @@ const recipesContents = page?.flatData.text!.contents;
                     {recipe.flatData.title}
                   </h2>
                   <div class="flex items-center mb-2">
-                    <div class="flex-shrink-0">
-                      <img
+                    <div class="shrink-0">
+                      <Image
                         class="h-8 w-8 rounded-full object-cover"
                         src={routes.image(
-                          recipe.flatData.author![0].flatData.image![0].id
+                          recipe.flatData.author?.[0]?.flatData.image?.[0]
+                            ?.id ?? ""
                         )}
-                        alt={recipe.flatData.author![0].flatData.name}
+                        width={50}
+                        height={50}
+                        alt={recipe.flatData.author?.[0]?.flatData.name ?? ""}
                       />
                     </div>
                     <div class="ml-2">
                       <p class="text-sm font-medium text-gray-900">
-                        {recipe.flatData.author![0].flatData.name}
+                        {recipe.flatData.author?.[0]?.flatData.name ?? ""}
                       </p>
                       <p class="text-xs text-gray-600">
                         {new Date(
@@ -86,7 +103,7 @@ const recipesContents = page?.flatData.text!.contents;
                     <a
                       title={recipe.flatData.title}
                       href={routes.blog(recipe.flatData.slug!)}
-                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-sm text-red-500 italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
+                      class="inline-flex items-center px-2 border text-white border-transparent text-lg font-medium rounded-full shadow-xs italic hover:bg-red-500 hover:text-white bg-[#dc2626]"
                     >
                       Read More...
                     </a>

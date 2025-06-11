@@ -1,50 +1,42 @@
 ---
 import { Icon } from "astro-icon/components";
-import { routes } from "src/pages/routing";
+import { routes } from "src/routing";
 ---
 
-    <footer class="bg-gradient-to-b from-red-400 to-red-500 rounded-lg shadow-lg p-8 relative">
-    <Icon name="Mave"
-        class="absolute bottom-0 left-0 right-0"
-     />
-      <div class="max-w-screen-xl mx-auto relative z-10">
-        <div class="flex  justify-between mb-8 md:flex-row flex-col items-center">
-          <div>
-             <a href="/"
-          class="flex items-center mb-2">
-               <Icon name="Chef"
-                          class="h-14 w-14 items-center"
-
-                           />
-            <span class="text-xl font-semibold text-white mt-1 ml-3">
-        The Balanced Chef
-            </span>
-          </a>
-          </div>
-         
-          <ul class="flex flex-wrap  space-x-4 text-sm font-medium items-center">
-            <li
-              class="text-white mb-4"
-            >
-
-          <a href={routes.recipes()} class="mr-5 hover:text-red-500">Recipes</a>
-<a href="/about" class="mr-5 hover:text-red-500">About</a>
-<a href="/contact" class="mr-5 hover:text-red-500">Contact</a>
-</li>
-          </ul>
-        </div>
-        <hr class="border-blue-300 mb-8 hidden sm:block" />
-
-        <div class="items-center text-base text-center text-white sm:text-current   mb-12 sm:my-0">
-          <h1 class="">
-            © 2023{" "}
-            <a 
-            href="/"
-             class="hover:underline xl:text-red-500 underline-offset-1">
-              The Balanced Chef 
-            </a>
-          
-          </h1>
-        </div>
+<footer
+  class="bg-linear-to-b from-red-400 to-red-500 rounded-lg shadow-lg p-8 relative"
+>
+  <Icon name="Mave" class="absolute bottom-0 left-0 right-0" />
+  <div class="max-w-(--breakpoint-xl) mx-auto relative z-10">
+    <div class="flex justify-between mb-8 md:flex-row flex-col items-center">
+      <div>
+        <a href="/" class="flex items-center mb-2">
+          <Icon name="Chef" class="h-14 w-14 items-center" />
+          <span class="text-xl font-semibold text-white mt-1 ml-3">
+            The Balanced Chef
+          </span>
+        </a>
       </div>
-    </footer>
+
+      <ul class="flex flex-wrap space-x-4 text-sm font-medium items-center">
+        <li class="text-white mb-4">
+          <a href={routes.recipes()} class="mr-5 hover:text-red-500">Recipes</a>
+          <a href="/about" class="mr-5 hover:text-red-500">About</a>
+          <a href="/contact" class="mr-5 hover:text-red-500">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <hr class="border-blue-300 mb-8 hidden sm:block" />
+
+    <div
+      class="items-center text-base text-center text-white sm:text-current mb-12 sm:my-0"
+    >
+      <h1 class="">
+        © 2023{" "}
+        <a href="/" class="hover:underline xl:text-red-500 underline-offset-1">
+          The Balanced Chef
+        </a>
+      </h1>
+    </div>
+  </div>
+</footer>

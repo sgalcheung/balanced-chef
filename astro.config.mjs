@@ -1,5 +1,5 @@
-import { defineConfig, envField } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import { defineConfig, envField, passthroughImageService } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 
 import cloudflare from "@astrojs/cloudflare";
@@ -7,9 +7,6 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     icon({
       include: {
         fluent: ["people-community-16-filled", "timer-16-filled"],
@@ -19,23 +16,14 @@ export default defineConfig({
     }),
     setPrerender(),
   ],
-  adapter: cloudflare({
-    // [WARN] The currently selected adapter `@astrojs/cloudflare` is not compatible with the image service "Sharp".
-    // imageService: 'cloudflare' // This service need payment, used no-op passthrough service instead.
-  }),
   image: {
-    // Configure the passthroughImageService() to avoid both Squoosh and Sharp image processing
-    // service: passthroughImageService(),
-    // endpoint: {
-    //   route: "/_image",
-    //   entrypoint: "./src/image_endpoint.ts",
-    // },
+    service: passthroughImageService(),
   },
-  // https://docs.astro.build/en/guides/integrations-guide/cloudflare/#nodejs-compatibility
+  adapter: cloudflare({
+    imageService: "passthrough",
+  }),
   vite: {
-    ssr: {
-      external: ["node:util", "node:process"],
-    },
+    plugins: [tailwindcss()],
   },
   env: {
     schema: {
@@ -46,6 +34,11 @@ export default defineConfig({
       SQUIDEX_URL: envField.string({
         context: "server",
         access: "public",
+      }),
+      FONTS_CDN_URL: envField.string({
+        context: "server",
+        access: "public",
+        default: "https://font-repo.pages.dev",
       }),
     },
   },
@@ -61,6 +54,7 @@ function setPrerender() {
           "/pages/api/image/[id].ts",
           "/pages/blog/[slug].astro",
           "/pages/blog/Card.astro",
+          "/pages/fonts/[path].ts",
         ];
         renderComponents.some((item) => {
           if (route.component.endsWith(item)) {
