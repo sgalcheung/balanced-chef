@@ -6,6 +6,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: Production
     env:
       SQUIDEX_APP_NAME: ${{ vars.SQUIDEX_APP_NAME }}
       SQUIDEX_URL: ${{ vars.SQUIDEX_URL }}
