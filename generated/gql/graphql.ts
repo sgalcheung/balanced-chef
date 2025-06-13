@@ -540,8 +540,10 @@ export type ApplicationQueriesQueryAssetsWithTotalArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryAuthorsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -550,8 +552,10 @@ export type ApplicationQueriesQueryAuthorsContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryAuthorsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -566,8 +570,10 @@ export type ApplicationQueriesQueryContentsByIdsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryPageContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -576,8 +582,10 @@ export type ApplicationQueriesQueryPageContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryPageContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -586,8 +594,10 @@ export type ApplicationQueriesQueryPageContentsWithTotalArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryPostsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -596,8 +606,10 @@ export type ApplicationQueriesQueryPostsContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryPostsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -606,8 +618,10 @@ export type ApplicationQueriesQueryPostsContentsWithTotalArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryRecipesContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -616,8 +630,10 @@ export type ApplicationQueriesQueryRecipesContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryRecipesContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -626,8 +642,10 @@ export type ApplicationQueriesQueryRecipesContentsWithTotalArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryTagsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -636,8 +654,10 @@ export type ApplicationQueriesQueryTagsContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryTagsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -800,8 +820,10 @@ export type Authors = Content & {
 
 /** The structure of a authors content type. */
 export type AuthorsReferencingRecipesContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -810,8 +832,10 @@ export type AuthorsReferencingRecipesContentsArgs = {
 
 /** The structure of a authors content type. */
 export type AuthorsReferencingRecipesContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1334,8 +1358,10 @@ export type Recipes = Content & {
 
 /** The structure of a recipes content type. */
 export type RecipesReferencesAuthorsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1344,8 +1370,10 @@ export type RecipesReferencesAuthorsContentsArgs = {
 
 /** The structure of a recipes content type. */
 export type RecipesReferencesAuthorsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1354,8 +1382,10 @@ export type RecipesReferencesAuthorsContentsWithTotalArgs = {
 
 /** The structure of a recipes content type. */
 export type RecipesReferencesTagsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1364,8 +1394,10 @@ export type RecipesReferencesTagsContentsArgs = {
 
 /** The structure of a recipes content type. */
 export type RecipesReferencesTagsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1597,8 +1629,10 @@ export type Tags = Content & {
 
 /** The structure of a tags content type. */
 export type TagsReferencingRecipesContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1607,8 +1641,10 @@ export type TagsReferencingRecipesContentsArgs = {
 
 /** The structure of a tags content type. */
 export type TagsReferencingRecipesContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
