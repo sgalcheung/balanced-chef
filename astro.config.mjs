@@ -24,6 +24,9 @@ export default defineConfig({
   }),
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ["astro-icon > @iconify/utils > debug"], // issue: https://github.com/natemoo-re/astro-icon/issues/277
+    },
   },
   env: {
     schema: {
